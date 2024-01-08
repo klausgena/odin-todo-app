@@ -9,7 +9,7 @@ class Project {
     add(todo) {
 	this.#which.push(todo);
 	console.log(`Successfully added todo ${todo.what} to project ${this.#what}`);
-	console.log(`The project now contains ${this.countx} todo items.`);
+	console.log(`The project now contains ${this.count} todo items.`);
     }
     get count() {
 	return this.#which.length;
