@@ -47,3 +47,6 @@ export function projectEdit (project, name) {
     project.what = name;
 }
 
+export function projectAddTodo (project, todo) {
+    project.add(todo);
+}

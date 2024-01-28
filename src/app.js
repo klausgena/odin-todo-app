@@ -8,4 +8,6 @@ const defaultProject = controller.projectCreate('My Todo List');
 const defaultTodo = controller.todoCreate('This app', 'Now');
 // add default todo to default project
 
-defaultProject.add(defaultTodo);
+controller.todoIsDone(defaultTodo);
+
+controller.projectAddTodo(defaultProject, defaultTodo);
