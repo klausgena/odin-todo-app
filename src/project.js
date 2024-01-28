@@ -14,5 +14,13 @@ class Project {
     get count() {
 	return this.#which.length;
     }
+
+    get what() {
+	return this.#what;
+    }
+
+    get which() {
+	return this.#which;
+    }
 }
 export { Project };

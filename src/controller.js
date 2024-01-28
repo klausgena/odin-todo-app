@@ -4,30 +4,46 @@ import { Project } from './project.js';
 
 // Todo actions
 
-function todoIsDone (todo) {
+export function todoIsDone (todo) {
     todo.done;
 }
 
-function todoDelete (todo) {
+export function todoDelete (todo) {
     todo = null;
 }
 
-function todoCreate (what, when) {
+export function todoCreate (what, when) {
     const todo = new Todo(what, when);
     return todo;
 }
 
-function todoEdit (todo, what, when, urgent) {
+export function todoEdit (todo, what, when, urgent) {
+    // TODO: think of some defaults?
     todo.what = what;
     todo.when = when;
     todo.urgent = urgent;    
 }
 
+// Lists
+
+
+// TODO
+export function listTodos () {}
+// TODO
+export function listProjects () {}
 
 // Project actions
 
-function projectCreate () {}
+export function projectCreate (name) {
+    const project = new Project(name);
+    return project;
+}
 
-function projectDelete () {}
+export function projectDelete (project) {
+    project = null;
+}
 
-function projectEdit () {}
+export function projectEdit (project, name) {
+    project.what = name;
+}
+

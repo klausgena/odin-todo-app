@@ -1,12 +1,11 @@
-import { Todo } from './todo.js';
-import { Project } from './project.js';
+import * as controller  from './controller.js';
 
 // Create a default project
-const defaultProject = new Project("My TODO List");
+const defaultProject = controller.projectCreate('My Todo List');
 
 // Create a dummy todo
 
-const defaultTodo = new Todo('Create app', 'this week', 'Yes');
+const defaultTodo = controller.todoCreate('This app', 'Now');
 // add default todo to default project
 
 defaultProject.add(defaultTodo);

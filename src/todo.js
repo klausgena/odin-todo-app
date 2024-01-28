@@ -35,11 +35,12 @@ class Todo {
     set when(when) {
 	this.#when = when;
     }
-    set urgent(urgent) {
-	this.#isUrgent = urgent;
+    set urgent(yesNo) {
+	this.#isUrgent = yesNo;
     }
-    set done() {
-	this.#isFinished = 'Yes';
+    set done(yesNo) {
+	this.#isFinished = yesNo;
 	return this.#isFinished;
+    }
 }
 export { Todo };
