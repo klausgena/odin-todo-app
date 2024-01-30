@@ -13,6 +13,7 @@ class Todo {
 	this.#when = when;
 	this.#project = project;
 	this.#isUrgent = isUrgent;
+	this.#isFinished = isFinished;
 	console.log(`Successfully created todo ${what}`);
     }
     // getters

@@ -1,11 +1,12 @@
 // All the actions users can undertake
 import { Todo } from './todo.js';
 import { Project } from './project.js';
+import { default as DB }  from './db.js';
 
 // Todo actions
 
 export function todoIsDone (todo) {
-    todo.done;
+    todo.done = 'yes';
 }
 
 export function todoDelete (todo) {
@@ -30,16 +31,21 @@ export function todoEdit (todo, what, when, urgent) {
 // TODO
 export function listTodos () {}
 // TODO
-export function listProjects () {}
+export function listProjects () {
+    DB.listProjects();
+}
 
 // Project actions
 
 export function projectCreate (name) {
     const project = new Project(name);
+    DB.addProject(project);
     return project;
 }
 
 export function projectDelete (project) {
+    // TODO remove all TODO's from project???
+    DB.deleteProject(project);
     project = null;
 }
 

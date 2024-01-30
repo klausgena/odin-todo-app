@@ -4,11 +4,6 @@ function dateView () {
     // Today, This week, This Month and Later
 }
 
-function projectView () {
-    // returns te todo list, ordered by date and divided under all their
-    // respective projects
-}
-
 function todayView() {
     // returns the list of todos for today
 }
@@ -22,3 +17,8 @@ function projectTodosView() {
     // returns a list of all todos for a certain project
 }
 
+export function todoView(todo) {
+    // returns a todo with all the details
+    const todoString = `\n**Todo** \nwhat: ${todo.what} \nwhen: ${todo.when} \nurgency: ${todo.urgent} \ndone?: ${todo.done}`; 
+    console.log(todoString);
+}
