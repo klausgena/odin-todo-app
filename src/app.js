@@ -1,14 +1,10 @@
-import * as controller  from './controller.js';
+import * as controller from './controller.js';
 import * as views from './views.js';
-import { default as DB }
-from './db.js';
 
 // Create a default project
 const defaultProject = controller.projectCreate('My Todo List');
 
-
 // Create a dummy todo
-
 const defaultTodo = controller.todoCreate('This app', 'Now');
 
 views.todoView(defaultTodo);
@@ -16,7 +12,6 @@ views.todoView(defaultTodo);
 controller.todoIsDone(defaultTodo);
 
 // Check if todo state changed
-
 views.todoView(defaultTodo);
 
 // add default todo to default project
@@ -25,6 +20,9 @@ controller.projectAddTodo(defaultProject, defaultTodo);
 // add second project
 controller.projectCreate("My second TODO list");
 
+// list todos for project
+views.projectTodosView("My Todo List");
+
 // check DB
 views.projectsView();
 
@@ -32,9 +30,7 @@ views.projectsView();
 controller.projectDelete(defaultProject);
 
 // check DB
-
 views.projectsView();
 
 // show todos for defaultproject
-
-views.projectTodosView('My Todo List');
+views.projectTodosView('My second TODO list');

@@ -1,27 +1,27 @@
 // All the actions users can undertake
 import { Todo } from './todo.js';
 import { Project } from './project.js';
-import { default as DB }  from './db.js';
+import { default as DB } from './db.js';
 
 // Todo actions
 // TODO Make every function return something
 
-export function todoIsDone (todo) {
+export function todoIsDone(todo) {
     todo.done = 'yes';
     return todo;
 }
 
-export function todoDelete (todo) {
+export function todoDelete(todo) {
     todo = null;
     return todo;
 }
 
-export function todoCreate (what, when) {
+export function todoCreate(what, when) {
     const todo = new Todo(what, when);
     return todo;
 }
 
-export function todoEdit (todo, what, when, urgent) {
+export function todoEdit(todo, what, when, urgent) {
     // TODO: think of some defaults?
     todo.what = what;
     todo.when = when;
@@ -31,40 +31,37 @@ export function todoEdit (todo, what, when, urgent) {
 
 // Lists
 
-// WORKS?
-export function listTodosForProject(project) {
-    const myProject = DB.getProject(project);
-    console.log(myProject);
+export function listTodosForProject(projectName) {
+    const myProject = DB.getProject(projectName);
     return myProject.which;
 }
 
 // TODO
-export function listTodosByDate () {}
-// TODO
-export function listTodosByProject () {}
+export function listTodosByDate() { }
 
-export function listProjects () {
+
+export function listProjects() {
     return DB.listProjects();
 }
 
 // Project actions
 
-export function projectCreate (name) {
+export function projectCreate(name) {
     const project = new Project(name);
     DB.addProject(project);
     return project;
 }
 
-export function projectDelete (project) {
+export function projectDelete(project) {
     // TODO remove all TODO's from project???
     DB.deleteProject(project);
     project = null;
 }
 
-export function projectEdit (project, name) {
+export function projectEdit(project, name) {
     project.what = name;
 }
 
-export function projectAddTodo (project, todo) {
+export function projectAddTodo(project, todo) {
     project.add(todo);
 }

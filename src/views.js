@@ -1,7 +1,7 @@
 import * as controller from './controller.js';
 
 // All views users can interact with
-export function dateView () {
+export function dateView() {
     // returns the todo list, ordered by date and divided into 4 categories:
     // Today, This week, This Month and Later
 }
@@ -12,18 +12,24 @@ export function todayView() {
 
 export function projectsView() {
     // returns the list of all projects
-    console.log(controller.listProjects());
-    // TODO and also the degree of 'doneness' of the project
+    const projects = controller.listProjects();
+    projects.forEach(project => console.log(project.what));
 }
 
 export function projectTodosView(project) {
     // returns a list of all todos for a certain project
     const todos = controller.listTodosForProject(project);
-    console.log(todos);
+    if (todos.length > 0) {
+        todos.forEach(todo => {
+            console.log(todo.what);
+        });
+    } else {
+        console.log("No more todos");
+    }
 }
 
 export function todoView(todo) {
     // returns a todo with all the details
-    const todoString = `\n**Todo** \nwhat: ${todo.what} \nwhen: ${todo.when} \nurgency: ${todo.urgent} \ndone?: ${todo.done}`; 
+    const todoString = `\n**Todo** \nwhat: ${todo.what} \nwhen: ${todo.when} \nurgency: ${todo.urgent} \ndone?: ${todo.done}`;
     console.log(todoString);
 }
