@@ -8,10 +8,12 @@ import { default as DB }  from './db.js';
 
 export function todoIsDone (todo) {
     todo.done = 'yes';
+    return todo;
 }
 
 export function todoDelete (todo) {
     todo = null;
+    return todo;
 }
 
 export function todoCreate (what, when) {
@@ -23,17 +25,26 @@ export function todoEdit (todo, what, when, urgent) {
     // TODO: think of some defaults?
     todo.what = what;
     todo.when = when;
-    todo.urgent = urgent;    
+    todo.urgent = urgent;
+    return todo;
 }
 
 // Lists
 
+// WORKS?
+export function listTodosForProject(project) {
+    const myProject = DB.getProject(project);
+    console.log(myProject);
+    return myProject.which;
+}
 
 // TODO
-export function listTodos () {}
+export function listTodosByDate () {}
 // TODO
+export function listTodosByProject () {}
+
 export function listProjects () {
-    DB.listProjects();
+    return DB.listProjects();
 }
 
 // Project actions

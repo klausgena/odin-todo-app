@@ -26,11 +26,15 @@ controller.projectAddTodo(defaultProject, defaultTodo);
 controller.projectCreate("My second TODO list");
 
 // check DB
-controller.listProjects();
+views.projectsView();
 
 // remove project from DB
 controller.projectDelete(defaultProject);
 
 // check DB
 
-controller.listProjects();
+views.projectsView();
+
+// show todos for defaultproject
+
+views.projectTodosView('My Todo List');

@@ -6,6 +6,7 @@ class DB {
     constructor() {
 	if (instance) {
 	    throw new Error("New instance cannot be created!");
+	    // TODO error if name exists already
 	}
 	instance = this;
     }
@@ -22,9 +23,11 @@ class DB {
 	
     }
     listProjects () {
-	console.log("Projects: ");
-	projects.forEach((project) => console.log(project.what));
-	console.log("***");
+	return projects;
+    }
+    
+    getProject (name) {
+	// TODO
     }
 }
     let DBInstance = Object.freeze(new DB());

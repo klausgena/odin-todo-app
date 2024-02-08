@@ -1,20 +1,25 @@
+import * as controller from './controller.js';
+
 // All views users can interact with
-function dateView () {
+export function dateView () {
     // returns the todo list, ordered by date and divided into 4 categories:
     // Today, This week, This Month and Later
 }
 
-function todayView() {
+export function todayView() {
     // returns the list of todos for today
 }
 
-function projectsView() {
+export function projectsView() {
     // returns the list of all projects
-    // and also the degree of 'doneness' of the project
+    console.log(controller.listProjects());
+    // TODO and also the degree of 'doneness' of the project
 }
 
-function projectTodosView(project) {
+export function projectTodosView(project) {
     // returns a list of all todos for a certain project
+    const todos = controller.listTodosForProject(project);
+    console.log(todos);
 }
 
 export function todoView(todo) {
