@@ -8,12 +8,12 @@ function todayView() {
     // returns the list of todos for today
 }
 
-function projectView() {
+function projectsView() {
     // returns the list of all projects
     // and also the degree of 'doneness' of the project
 }
 
-function projectTodosView() {
+function projectTodosView(project) {
     // returns a list of all todos for a certain project
 }
 

@@ -4,6 +4,7 @@ import { Project } from './project.js';
 import { default as DB }  from './db.js';
 
 // Todo actions
+// TODO Make every function return something
 
 export function todoIsDone (todo) {
     todo.done = 'yes';
