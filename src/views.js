@@ -13,9 +13,14 @@ export function todayView() {
 export function projectsView() {
     // returns the list of all projects
     const projects = controller.listProjects();
-    projects.forEach(project => console.log(project.what));
+    const ul = document.createElement("ul");
+    projects.forEach(project => {
+        const li = document.createElement("li");
+        li.textContent = project.what;
+        ul.appendChild(li);
+    });
+    return ul;
 }
-
 export function projectTodosView(project) {
     // returns a list of all todos for a certain project
     const todos = controller.listTodosForProject(project);
