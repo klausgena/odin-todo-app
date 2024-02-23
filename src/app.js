@@ -6,6 +6,9 @@ const defaultProject = controller.projectCreate('My Todo List');
 
 // Create a dummy todo
 const defaultTodo = controller.todoCreate('This app', 'Now');
+const secondTodo = controller.todoCreate('This 2 app', 'Today');
+const thirdTodo = controller.todoCreate('This sdfasf app', 'Next week');
+const fourthTodo = controller.todoCreate('Thisasdfa  app', 'Tomorrow');
 
 views.todoView(defaultTodo);
 
@@ -20,18 +23,22 @@ controller.projectAddTodo(defaultProject, defaultTodo);
 // add second project and third project
 controller.projectCreate("My second TODO list");
 controller.projectCreate("Third");
+controller.projectAddTodo(defaultProject, secondTodo);
+controller.projectAddTodo(defaultProject, thirdTodo);
+controller.projectAddTodo(defaultProject, fourthTodo);
+
 
 // list todos for project
-views.projectTodosView("My Todo List");
+//views.projectTodosView("My Todo List");
 
 // check DB
-views.projectsView();
+//views.projectsView();
 
 // remove project from DB
-controller.projectDelete(defaultProject);
+//controller.projectDelete(defaultProject);
 
 // check DB
-views.projectsView();
+//views.projectsView();
 
 // show todos for defaultproject
-views.projectTodosView('My second TODO list');
+//views.projectTodosView('My second TODO list');

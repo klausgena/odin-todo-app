@@ -2,12 +2,12 @@
 Odin Project TODO App
 ## TODO
 - Create all the views in views.js (and respective functionality in controller)
-  - a view with all project names and all todos as check boxes
-    - projects AND todos are collapsible
-    - todos can be checked OFF
-    - you can add todos
-    - you can edit todos
-    - you can delete todos
-    - if all todos are checked OFF, the project is also checked off (percentage 100)
+  - [] a view with all project names and all todos as check boxes
+    - [] projects AND todos are collapsible
+    - [] todos can be checked OFF
+    - [] you can add todos
+    - [] you can edit todos
+    - [] you can delete todos
+    - [] if all todos are checked OFF, the project is also checked off (percentage 100)
 - Create the web page
 - etc.

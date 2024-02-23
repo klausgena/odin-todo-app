@@ -16,25 +16,62 @@ export function projectsView() {
     const ul = document.createElement("ul");
     projects.forEach(project => {
         const li = document.createElement("li");
-        li.textContent = project.what;
+        const h2 = document.createElement('h2');
+        h2.textContent = project.what;
+        li.appendChild(h2);
+        // TODO append list with all project todos
+        const todos = projectTodosView(project);
+        if (todos) {
+            li.appendChild(todos);
+        }
+        else {
+            const string = "No todos for this project";
+            const p = document.createElement('p');
+            p.textContent = string;
+            li.appendChild(p);
+        }
         ul.appendChild(li);
     });
     return ul;
 }
+
 export function projectTodosView(project) {
     // returns a list of all todos for a certain project
-    const todos = controller.listTodosForProject(project);
+    const todos = controller.listTodosForProject(project.what);
     if (todos.length > 0) {
+        const ul = document.createElement('ul');
         todos.forEach(todo => {
-            console.log(todo.what);
+            const ulTodo = todoView(todo);
+            ul.appendChild(ulTodo);
         });
+        return ul;
     } else {
-        console.log("No more todos");
+        console.log(`No todos for project ${project.what}`);
+        // to check if there are todos?
+        return false;
     }
 }
 
 export function todoView(todo) {
     // returns a todo with all the details
-    const todoString = `\n**Todo** \nwhat: ${todo.what} \nwhen: ${todo.when} \nurgency: ${todo.urgent} \ndone?: ${todo.done}`;
-    console.log(todoString);
+    const ul = document.createElement('ul');
+    const ulWhat = document.createElement('ul');
+    const liWhen = document.createElement('li');
+    const liUrgent = document.createElement('li');
+    const liDone = document.createElement('li');
+    const h3 = document.createElement('h3');
+
+    h3.textContent = todo.what;
+    liWhen.textContent = todo.when;
+    liUrgent.textContent = todo.urgent;
+    liDone.textContent = todo.done;
+
+    ulWhat.appendChild(liWhen);
+    ulWhat.appendChild(liUrgent);
+    ulWhat.appendChild(liDone);
+
+    ul.appendChild(h3);
+    ul.appendChild(ulWhat);
+
+    return ul;
 }
