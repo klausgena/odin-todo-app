@@ -8,3 +8,5 @@ const ul = views.projectsView();
 
 mainDiv.appendChild(h1);
 mainDiv.appendChild(ul);
+
+// add events

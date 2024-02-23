@@ -11,14 +11,15 @@ export function todoIsDone(todo) {
     return todo;
 }
 
-export function todoDelete(todo) {
-    todo = null;
-    return todo;
+export function todoDelete(project, todoIndex) {
+    project.delete(todoIndex);
+    return project;
 }
 
-export function todoCreate(what, when) {
+export function todoCreate(what, when, project) {
     const todo = new Todo(what, when);
-    return todo;
+    project.add(todo);
+    return project;
 }
 
 export function todoEdit(todo, what, when, urgent) {
@@ -53,7 +54,6 @@ export function projectCreate(name) {
 }
 
 export function projectDelete(project) {
-    // TODO remove all TODO's from project???
     DB.deleteProject(project);
     project = null;
 }
@@ -64,4 +64,5 @@ export function projectEdit(project, name) {
 
 export function projectAddTodo(project, todo) {
     project.add(todo);
+    return project;
 }
