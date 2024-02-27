@@ -27,8 +27,13 @@ class DB {
 	}
 
 	getProject(name) {
+		// NEEDED???
 		const myProject = projects.find(project => project.what === name);
 		return myProject;
+	}
+
+	getProjectByNumber(number) {
+		return projects[number];
 	}
 }
 let DBInstance = Object.freeze(new DB());

@@ -66,3 +66,7 @@ export function projectAddTodo(project, todo) {
     project.add(todo);
     return project;
 }
+
+export function getProjectByNumber(number) {
+    return DB.getProjectByNumber(number);
+}

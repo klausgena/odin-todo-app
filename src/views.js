@@ -1,4 +1,5 @@
 import * as controller from './controller.js';
+import * as events from './events.js';
 
 // All views users can interact with
 export function dateView() {
@@ -94,4 +95,21 @@ export function todoView(todo, index) {
     ulWhat.appendChild(addButton);
     li.appendChild(ulWhat);
     return li;
+}
+
+export function addEventsToView(viewFunction) {
+    const container = viewFunction();
+    container.addEventListener('click', events.addTodoEvent);
+    container.addEventListener('click', events.addProjectEvent);
+    return container;
+}
+
+export function redrawScreen() {
+    const mainDiv = document.getElementById("content");
+    mainDiv.innerHTML = "";
+    const h1 = document.createElement("h1");
+    h1.textContent = "My Projects";
+    const ul = addEventsToView(projectsView);
+    mainDiv.appendChild(h1);
+    mainDiv.appendChild(ul);
 }
