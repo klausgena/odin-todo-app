@@ -7,7 +7,7 @@ export function addTodoEvent(event) {
         const projectLi = target.closest("h2 + ul").parentElement;
         const projectId = projectLi.querySelector("span").dataset.projectIndex;
         const myProject = controller.getProjectByNumber(projectId);
-        // add modal or input fields
+        // TODO add modal or input fields
         controller.todoCreate("this todo stupid name fuck suck dick", "next month", myProject);
         views.redrawScreen();
     }
@@ -17,10 +17,9 @@ export function addProjectEvent(event) {
     // add functionality
     const target = event.target;
     if (target.id == "add-project") {
-        alert('Add project');
-        // add modal
+        controller.projectCreate("New Fucking Project! YOUOHOU!");
+        // TODO add modal or input fields
         views.redrawScreen();
-        alert("redran");
     }
 }
 

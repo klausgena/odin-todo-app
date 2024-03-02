@@ -9,5 +9,8 @@ Odin Project TODO App
     - [] you can edit todos
     - [] you can delete todos
     - [] if all todos are checked OFF, the project is also checked off (percentage 100)
-- Create the web page
+    - [] you can add projects
+- Create the date functionality
+- Add the persistent DB layer for future sessions
+- Add css, different views
 - etc.

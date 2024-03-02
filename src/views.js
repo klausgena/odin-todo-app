@@ -31,12 +31,6 @@ export function projectsView() {
         if (todos) {
             li.appendChild(todos);
         }
-        else {
-            const string = "No todos for this project";
-            const p = document.createElement('p');
-            p.textContent = string;
-            li.appendChild(p);
-        }
         ul.appendChild(li);
     });
     addButton.textContent = "+ ADD PROJECT";
@@ -48,18 +42,22 @@ export function projectsView() {
 export function projectTodosView(project) {
     // returns a list of all todos for a certain project
     const todos = controller.listTodosForProject(project.what);
+    const addButton = document.createElement('button');
+    const ul = document.createElement('ul');
     if (todos.length > 0) {
-        const ul = document.createElement('ul');
         todos.forEach((todo, index) => {
             const ulTodo = todoView(todo, index);
             ul.appendChild(ulTodo);
+
+
         });
-        return ul;
     } else {
         console.log(`No todos for project ${project.what}`);
-        // to check if there are todos?
-        return false;
     }
+    addButton.setAttribute("class", "todo-add");
+    addButton.textContent = "+ ADD TODO";
+    ul.appendChild(addButton);
+    return ul;
 }
 
 export function todoView(todo, index) {
@@ -69,7 +67,6 @@ export function todoView(todo, index) {
     const values = [todo.when, todo.urgent, todo.done];
     const h3 = document.createElement('h3');
     const uiSpan = document.createElement('span');
-    const addButton = document.createElement('button');
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
     checkBox.setAttribute("data-todo-index", index);
@@ -90,9 +87,7 @@ export function todoView(todo, index) {
         ulWhat.appendChild(li);
     });
     li.appendChild(h3);
-    addButton.setAttribute("class", "todo-add");
-    addButton.textContent = "+ ADD TODO";
-    ulWhat.appendChild(addButton);
+
     li.appendChild(ulWhat);
     return li;
 }
