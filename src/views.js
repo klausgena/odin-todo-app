@@ -97,6 +97,7 @@ export function addEventsToView(viewFunction) {
     container.addEventListener('click', events.addTodoEvent);
     container.addEventListener('click', events.addProjectEvent);
     container.addEventListener('click', events.deleteTodoEvent);
+    container.addEventListener('click', events.deleteProjectEvent);
     return container;
 }
 

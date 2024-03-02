@@ -7,7 +7,7 @@ Odin Project TODO App
     - [] todos can be checked OFF
     - [x] you can add todos
     - [] you can edit todos
-    - [] you can delete todos
+    - [x] you can delete todos
     - [] if all todos are checked OFF, the project is also checked off (percentage 100)
     - [x] you can add projects
 - Create the date functionality

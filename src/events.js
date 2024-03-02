@@ -34,14 +34,21 @@ export function deleteTodoEvent(event) {
     if (target.className == "todo-delete") {
         // get the project
         const project = getProject(target);
-        console.log(project);
         const index = target.dataset.todoIndex;
         controller.todoDelete(project, index);
         views.redrawScreen();
     }
 }
 
-export function deleteProjectEvent() {
+export function deleteProjectEvent(event) {
+    // delete a project from the GUI
+    const target = event.target;
+    if (target.className == "project-delete") {
+        const index = target.dataset.projectIndex;
+        const project = controller.getProjectByNumber(index);
+        controller.projectDelete(project);
+        views.redrawScreen();
+    }
 
 }
 
