@@ -20,7 +20,7 @@ export function projectsView() {
         const li = document.createElement("li");
         const h2 = document.createElement('h2');
         const delSpan = document.createElement('span');
-        delSpan.textContent = ' (DEL)';
+        delSpan.textContent = ' (ADEL)';
         delSpan.setAttribute("class", "project-delete");
         delSpan.setAttribute("data-project-index", index);
         h2.textContent = project.what;
@@ -96,6 +96,7 @@ export function addEventsToView(viewFunction) {
     const container = viewFunction();
     container.addEventListener('click', events.addTodoEvent);
     container.addEventListener('click', events.addProjectEvent);
+    container.addEventListener('click', events.deleteTodoEvent);
     return container;
 }
 

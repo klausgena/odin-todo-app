@@ -5,11 +5,11 @@ Odin Project TODO App
   - [] a view with all project names and all todos as check boxes
     - [] projects AND todos are collapsible
     - [] todos can be checked OFF
-    - [] you can add todos
+    - [x] you can add todos
     - [] you can edit todos
     - [] you can delete todos
     - [] if all todos are checked OFF, the project is also checked off (percentage 100)
-    - [] you can add projects
+    - [x] you can add projects
 - Create the date functionality
 - Add the persistent DB layer for future sessions
 - Add css, different views
