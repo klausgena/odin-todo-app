@@ -12,9 +12,9 @@ class Project {
         console.log(`Successfully added todo ${todo.what} to project ${this.#what}`);
         console.log(`The project now contains ${this.count} todo items.`);
     }
-    delete(todo) {
+    delete(index) {
         this.#which.splice(index, 1);
-        console.log(`Successfully deleted todo ${todo.what} from project ${this.#what}`);
+        console.log(`Successfully deleted todo ${index} from project ${this.#what}`);
         console.log(`The project now contains ${this.count} todo items.`);
     }
     get count() {

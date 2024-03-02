@@ -31,13 +31,12 @@ export function addProjectEvent(event) {
 export function deleteTodoEvent(event) {
     // delete a todo from the GUI
     const target = event.target;
-    if (target.className = "todo-delete") {
+    if (target.className == "todo-delete") {
         // get the project
         const project = getProject(target);
         console.log(project);
         const index = target.dataset.todoIndex;
-        alert(index);
-        // controller.todoDelete(project, index);
+        controller.todoDelete(project, index);
         views.redrawScreen();
     }
 }
