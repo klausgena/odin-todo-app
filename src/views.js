@@ -27,7 +27,7 @@ export function projectsView() {
         h2.appendChild(delSpan);
         li.appendChild(h2);
         // append list with all project todos
-        const todos = projectTodosView(project);
+        const todos = projectTodosView(index);
         if (todos) {
             li.appendChild(todos);
         }
@@ -39,9 +39,9 @@ export function projectsView() {
     return ul;
 }
 
-export function projectTodosView(project) {
+export function projectTodosView(index) {
     // returns a list of all todos for a certain project
-    const todos = controller.listTodosForProject(project.what);
+    const todos = controller.listTodosForProject(index);
     const addButton = document.createElement('button');
     const ul = document.createElement('ul');
     if (todos.length > 0) {
@@ -52,7 +52,7 @@ export function projectTodosView(project) {
 
         });
     } else {
-        console.log(`No todos for project ${project.what}`);
+        console.log(`No todos for project ${index}`);
     }
     addButton.setAttribute("class", "todo-add");
     addButton.textContent = "+ ADD TODO";

@@ -32,8 +32,8 @@ export function todoEdit(todo, what, when, urgent) {
 
 // Lists
 
-export function listTodosForProject(projectName) {
-    const myProject = DB.getProject(projectName);
+export function listTodosForProject(number) {
+    const myProject = DB.getProjectByNumber(number);
     return myProject.which;
 }
 

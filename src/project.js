@@ -4,6 +4,7 @@ class Project {
 
     constructor(what) {
         this.#what = what;
+        // error if such a project already exists
         console.log(`Successfully created project ${what}.`);
     }
     add(todo) {

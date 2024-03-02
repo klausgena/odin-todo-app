@@ -6,7 +6,6 @@ class DB {
 	constructor() {
 		if (instance) {
 			throw new Error("New instance cannot be created!");
-			// TODO error if name exists already
 		}
 		instance = this;
 	}
@@ -26,10 +25,11 @@ class DB {
 		return projects;
 	}
 
-	getProject(name) {
-		// NEEDED???
-		const myProject = projects.find(project => project.what === name);
-		return myProject;
+	existsProject(name) {
+		if (projects.find(project => project.what === name)) {
+			return true;
+		}
+		return false;
 	}
 
 	getProjectByNumber(number) {
