@@ -20,7 +20,7 @@ export function projectsView() {
         const li = document.createElement("li");
         const h2 = document.createElement('h2');
         const delSpan = document.createElement('span');
-        delSpan.textContent = ' (ADEL)';
+        delSpan.textContent = ' (DEL)';
         delSpan.setAttribute("class", "project-delete");
         delSpan.setAttribute("data-project-index", index);
         h2.textContent = project.what;
@@ -48,8 +48,6 @@ export function projectTodosView(index) {
         todos.forEach((todo, index) => {
             const ulTodo = todoView(todo, index);
             ul.appendChild(ulTodo);
-
-
         });
     } else {
         console.log(`No todos for project ${index}`);
@@ -68,8 +66,10 @@ export function todoView(todo, index) {
     const h3 = document.createElement('h3');
     const uiSpan = document.createElement('span');
     const checkBox = document.createElement('input');
+    const checked = (todo.done == 'Yes') ? true : false;
     checkBox.type = 'checkbox';
     checkBox.setAttribute("data-todo-index", index);
+    checkBox.checked = checked;
     uiSpan.textContent = (" (DEL)");
     uiSpan.setAttribute("class", "todo-delete");
     uiSpan.setAttribute("data-todo-index", index);
@@ -98,6 +98,7 @@ export function addEventsToView(viewFunction) {
     container.addEventListener('click', events.addProjectEvent);
     container.addEventListener('click', events.deleteTodoEvent);
     container.addEventListener('click', events.deleteProjectEvent);
+    container.addEventListener('click', events.markDoneTodoEvent);
     return container;
 }
 

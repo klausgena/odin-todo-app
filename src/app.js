@@ -2,10 +2,10 @@ import * as controller from './controller.js';
 import * as views from './views.js';
 
 // Create a default project
-const defaultProject = controller.projectCreate('My project');
+const defaultProject = controller.projectCreate('@home');
 // add second project and third project
-const second = controller.projectCreate("My second project");
-const third = controller.projectCreate("Third project is todo list");
+const second = controller.projectCreate("@work");
+const third = controller.projectCreate("@pc");
 
 // Create a dummy todo
 const defaultTodo = controller.todoCreate('This todo', 'Now', defaultProject);

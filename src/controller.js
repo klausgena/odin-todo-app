@@ -7,7 +7,7 @@ import { default as DB } from './db.js';
 // TODO Make every function return something
 
 export function todoIsDone(todo) {
-    todo.done = 'yes';
+    todo.done = 'Yes';
     return todo;
 }
 
@@ -28,6 +28,13 @@ export function todoEdit(todo, what, when, urgent) {
     todo.when = when;
     todo.urgent = urgent;
     return todo;
+}
+
+export function projectTodoMarkDone(todoIndex, projectIndex) {
+    const project = getProjectByNumber(projectIndex);
+    const todo = project.todo(todoIndex);
+    todoIsDone(todo);
+    console.log(`Todo ${todo.what} is marked as done.`);
 }
 
 // Lists

@@ -9,6 +9,13 @@ function getProject(target) {
     return myProject;
 }
 
+function getProjectIndex(target) {
+    // Gets the project index out of the Dom tree
+    const projectLi = target.closest("h2 + ul").parentElement;
+    return projectLi.querySelector("span").dataset.projectIndex;
+}
+
+
 export function addTodoEvent(event) {
     const target = event.target;
     if (target.className == "todo-add") {
@@ -42,6 +49,7 @@ export function deleteTodoEvent(event) {
 
 export function deleteProjectEvent(event) {
     // delete a project from the GUI
+    // TODO ASK YES OR NO SURE?? DELETE make function
     const target = event.target;
     if (target.className == "project-delete") {
         const index = target.dataset.projectIndex;
@@ -49,11 +57,17 @@ export function deleteProjectEvent(event) {
         controller.projectDelete(project);
         views.redrawScreen();
     }
-
 }
 
-export function markDoneTodoEvent() {
-
+export function markDoneTodoEvent(event) {
+    // mark a todo as done in the GUI
+    const target = event.target;
+    if (target.type == "checkbox") {
+        const projectIndex = getProjectIndex(target);
+        const todoIndex = target.dataset.todoIndex;
+        controller.projectTodoMarkDone(todoIndex, projectIndex);
+        views.redrawScreen();
+    }
 }
 
 export function editTodoElementEvent() {
