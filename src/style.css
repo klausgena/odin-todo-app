@@ -1,3 +1,17 @@
 h3:has(input:checked) {
     text-decoration: line-through;
 }
+
+#content {
+    display: flex;
+}
+
+#sidebar {
+    flex: 20%;
+    background-color: aqua;
+}
+
+.fat-plus {
+    font-size: 2rem;
+    font-weight: bold;
+}

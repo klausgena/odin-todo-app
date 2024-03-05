@@ -15,7 +15,7 @@ export function projectsView() {
     // returns the list of all projects
     const projects = controller.listProjects();
     const ul = document.createElement("ul");
-    const addButton = document.createElement('button');
+    //const addButton = document.createElement('button');
     projects.forEach((project, index) => {
         const li = document.createElement("li");
         const h2 = document.createElement('h2');
@@ -26,16 +26,8 @@ export function projectsView() {
         h2.textContent = project.what;
         h2.appendChild(delSpan);
         li.appendChild(h2);
-        // append list with all project todos
-        const todos = projectTodosView(index);
-        if (todos) {
-            li.appendChild(todos);
-        }
         ul.appendChild(li);
     });
-    addButton.textContent = "+ ADD PROJECT";
-    addButton.setAttribute("id", "add-project");
-    ul.appendChild(addButton);
     return ul;
 }
 
@@ -103,11 +95,66 @@ export function addEventsToView(viewFunction) {
 }
 
 export function redrawScreen() {
+    // TODO add 'content' parameter to redraw screen for main content !
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";
-    const h1 = document.createElement("h1");
-    h1.textContent = "My Projects";
-    const ul = addEventsToView(projectsView);
-    mainDiv.appendChild(h1);
-    mainDiv.appendChild(ul);
+    createSidebarComponent(mainDiv);
+    createMainContent(mainDiv, "NULL FOR THE MOMENT");
+}
+
+function createSidebarComponent(containerDiv) {
+    // Creates the sidebar with project list, add task input, today, future
+    const headerH1 = document.createElement("h1");
+    const sidebarDiv = document.createElement("div");
+    const addTaskDiv = document.createElement("div");
+    const projectListDiv = document.createElement("div");
+    const todayDiv = document.createElement("div");
+    const futureDiv = document.createElement("div");
+    const addTaskP = document.createElement("p");
+    const projectListUl = projectsView();
+    const projectsH2 = document.createElement("h2");
+    const todayH2 = document.createElement("h2");
+    const futureH2 = document.createElement("h2");
+
+    sidebarDiv.setAttribute("id", "sidebar");
+    addTaskDiv.setAttribute("id", "add-task");
+    todayDiv.setAttribute("id", "today-div");
+    futureDiv.setAttribute("id", "future-div");
+    projectListDiv.setAttribute("id", "project-list");
+    todayDiv.setAttribute("id", "tasks-for-today");
+    futureDiv.setAttribute("id", "future-tasks");
+
+    addTaskP.innerHTML = "Add a task <span class='fat-plus'>+</span>";
+    addTaskDiv.appendChild(addTaskP);
+    todayH2.textContent = "Today's Tasks";
+    futureH2.textContent = "Tasks for later";
+    projectsH2.innerHTML = "Projects <span class='fat-plus'>+</span>";
+    projectsH2.setAttribute("id", "projects-h2");
+    todayDiv.appendChild(todayH2);
+    futureDiv.appendChild(futureH2);
+    projectListDiv.appendChild(projectsH2);
+    projectListDiv.appendChild(projectListUl);
+    headerH1.textContent = "My TODO list";
+
+    sidebarDiv.appendChild(headerH1);
+    sidebarDiv.appendChild(addTaskDiv);
+    sidebarDiv.appendChild(todayDiv);
+    sidebarDiv.appendChild(futureDiv);
+    sidebarDiv.appendChild(projectListDiv);
+
+    containerDiv.appendChild(sidebarDiv);
+}
+
+function createMainContent(containerDiv, content) {
+    // Creates the main content div with the todos of the selected project
+    // or for the selected time period
+    // default view = last project tasks? Today's tasks??
+    const mainDiv = document.createElement("div");
+    const tasksUl = projectTodosView(0);
+
+    // todo add project title in projecttodosviw function
+    mainDiv.setAttribute("id", "main-tasks-div");
+    mainDiv.appendChild(tasksUl);
+
+    containerDiv.appendChild(mainDiv);
 }

@@ -12,10 +12,3 @@ const defaultTodo = controller.todoCreate('This todo', 'Now', defaultProject);
 const secondTodo = controller.todoCreate('This 2 todo', 'Today', second);
 const thirdTodo = controller.todoCreate('This todo todo', 'Next week', third);
 const fourthTodo = controller.todoCreate('Thisasdfa todo', 'Tomorrow', third);
-
-views.todoView(defaultTodo);
-
-controller.todoIsDone(defaultTodo);
-
-// Check if todo state changed
-views.todoView(defaultTodo);
