@@ -1,6 +1,9 @@
 import * as views from './views.js';
 import * as controller from './controller.js';
 
+
+// HELPER FUNCTIONS
+
 function getProject(target) {
     // Gets the project out of the Dom tree
     const projectLi = target.closest("h2 + ul").parentElement;
@@ -15,6 +18,7 @@ function getProjectIndex(target) {
     return projectLi.querySelector("span").dataset.projectIndex;
 }
 
+// EVENT HANDLERS
 
 export function addTodoEvent(event) {
     const target = event.target;

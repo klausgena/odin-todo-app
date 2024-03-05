@@ -1,4 +1,5 @@
 import './app.js';
+import css from './style.css';
 import * as views from './views.js';
 
 const mainDiv = document.getElementById("content");
