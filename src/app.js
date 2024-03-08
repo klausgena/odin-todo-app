@@ -1,5 +1,4 @@
 import * as controller from './controller.js';
-import * as views from './views.js';
 
 // Create a default project
 const defaultProject = controller.projectCreate('@home');

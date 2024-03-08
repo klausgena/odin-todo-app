@@ -22,10 +22,16 @@ function getProjectIndex(target) {
 
 export function addTodoEvent(event) {
     const target = event.target;
-    if (target.className == "todo-add") {
-        const myProject = getProject(target);
-        controller.todoCreate("this todo stupid name fuck suck dick", "next month", myProject);
-        views.redrawScreen();
+    if (target.id == "add-task" || target.className == "todo-add") {
+        const modal = document.getElementById("add-todo-dialog");
+        modal.showModal();
+        //const myProject = getProject(target);
+        // myProject = 0; // dummy TODO edit
+        // if no project then select, else active project
+        //controller.todoCreate("this todo stupid name fuck suck dick", "next month", myProject);
+        //views.redrawScreen();
+
+        // todo if submit option is CREATE NUEW PROJECT, then what?
     }
 }
 
