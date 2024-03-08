@@ -5,34 +5,18 @@ import * as events from './events.js';
 
 // event handler views
 
-function addTodoModal() {
+function addTodoModal(sideYesNo) {
 
-    // TODO make second modal for if is sidebar then add select with projects, else do not add.
+    // TODO make second modal for if is sidebar then add 
+    // select with projects, else do not add.
     const modal = document.createElement("dialog");
     const form = document.createElement("form");
     const labelWhat = document.createElement("label");
     const labelWhen = document.createElement("label");
-    const labelProject = document.createElement("label");
     const inputWhat = document.createElement("input");
     const inputWhen = document.createElement("input");
-    const selectProject = document.createElement("select");
+    const cancelButton = document.createElement("button");
     const submitButton = document.createElement("button");
-    const projects = controller.listProjects();
-    // const newProjectOption = document.createElement("option");
-
-    // fill the select with all existing projects
-    projects.forEach((project, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = project.what;
-        selectProject.appendChild(option);
-    })
-
-    // NEEDED????
-    // newProjectOption.textContent = "Create New Project";
-    // newProjectOption.setAttribute("id", "create-new-project-opt");
-
-    // selectProject.appendChild(newProjectOption);
 
     modal.setAttribute("id", "add-todo-dialog");
     form.setAttribute("method", "dialog");
@@ -40,30 +24,69 @@ function addTodoModal() {
     inputWhen.type = "date";
     labelWhat.textContent = "Title";
     labelWhen.textContent = "Due Date";
-    labelProject.textContent = "Assign To Project";
+
     submitButton.setAttribute("id", "add-todo-button");
+    cancelButton.setAttribute("id", "cancel-button");
     submitButton.textContent = "Submit";
+    cancelButton.textContent = "Cancel";
 
     form.appendChild(labelWhat);
     form.appendChild(inputWhat);
     form.appendChild(labelWhen);
     form.appendChild(inputWhen);
-    form.appendChild(labelProject);
-    form.appendChild(selectProject);
+
+    if (sideYesNo) {
+        const labelProject = document.createElement("label");
+        modal.setAttribute("id", "add-main-todo-dialog");
+        labelProject.textContent = "Assign To Project";
+        const selectProject = document.createElement("select");
+        const projects = controller.listProjects();
+        // fill the select with all existing projects
+        projects.forEach((project, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = project.what;
+            selectProject.appendChild(option);
+        })
+        form.appendChild(labelProject);
+        form.appendChild(selectProject);
+    }
+
+    form.appendChild(cancelButton);
     form.appendChild(submitButton);
 
     modal.appendChild(form);
 
     return modal;
-
 }
 
 function addProjectModal() {
     const modal = document.createElement("dialog");
     const form = document.createElement("form");
+    const labelWhat = document.createElement("label");
+    const inputWhat = document.createElement("input");
+
+    inputWhat.type = "text";
+    labelWhat.textContent = "What's the project about?";
+
+    const cancelButton = document.createElement("button");
+    const submitButton = document.createElement("button");
+
+    cancelButton.textContent = "Cancel";
+    submitButton.textContent = "Submit";
+
 
     modal.setAttribute("id", "add-project-dialog");
     form.setAttribute("method", "dialog");
+
+    form.appendChild(labelWhat);
+    form.appendChild(inputWhat);
+    form.appendChild(cancelButton);
+    form.appendChild(submitButton);
+
+    modal.appendChild(form);
+
+    return modal;
 }
 
 function editTodoModal() {
@@ -109,6 +132,7 @@ export function projectTodosView(index) {
     const myProject = controller.getProjectByNumber(index);
     const todos = controller.listTodosForProject(index);
     const addButton = document.createElement('button');
+    const addTodoDialog = addTodoModal(false);
     const h2 = document.createElement("h2");
     h2.textContent = myProject.what;
     const ul = document.createElement('ul');
@@ -124,6 +148,7 @@ export function projectTodosView(index) {
     addButton.setAttribute("class", "todo-add");
     addButton.textContent = "+ ADD TODO";
     ul.appendChild(addButton);
+    ul.appendChild(addTodoDialog);
     return ul;
 }
 
@@ -164,7 +189,7 @@ export function todoView(todo, index) {
 export function addEventsToView(node) {
     const container = node;
     container.addEventListener('click', events.addTodoEvent);
-    // container.addEventListener('click', events.addProjectEvent);
+    container.addEventListener('click', events.addProjectEvent);
     // container.addEventListener('click', events.deleteTodoEvent);
     // container.addEventListener('click', events.deleteProjectEvent);
     // container.addEventListener('click', events.markDoneTodoEvent);
@@ -194,7 +219,8 @@ function createSidebarComponent(containerDiv) {
     const projectsH2 = document.createElement("h2");
     const todayH2 = document.createElement("h2");
     const futureH2 = document.createElement("h2");
-    const addTodoDialog = addTodoModal();
+    const addTodoDialog = addTodoModal(true);
+    const addProjectDialog = addProjectModal();
 
     sidebarDiv.setAttribute("id", "sidebar");
     addTaskDiv.setAttribute("id", "add-task");
@@ -222,6 +248,7 @@ function createSidebarComponent(containerDiv) {
     sidebarDiv.appendChild(todayDiv);
     sidebarDiv.appendChild(futureDiv);
     sidebarDiv.appendChild(projectListDiv);
+    sidebarDiv.appendChild(addProjectDialog);
 
     containerDiv.appendChild(sidebarDiv);
 }

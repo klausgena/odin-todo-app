@@ -22,26 +22,33 @@ function getProjectIndex(target) {
 
 export function addTodoEvent(event) {
     const target = event.target;
-    if (target.id == "add-task" || target.className == "todo-add") {
+    if (target.id == "add-task") {
+        const modal = document.getElementById("add-main-todo-dialog");
+        modal.showModal();
+    }
+    else if (target.className == "todo-add") {
         const modal = document.getElementById("add-todo-dialog");
         modal.showModal();
-        //const myProject = getProject(target);
-        // myProject = 0; // dummy TODO edit
-        // if no project then select, else active project
-        //controller.todoCreate("this todo stupid name fuck suck dick", "next month", myProject);
-        //views.redrawScreen();
-
-        // todo if submit option is CREATE NUEW PROJECT, then what?
     }
+    //const myProject = getProject(target);
+    // myProject = 0; // dummy TODO edit
+    // if no project then select, else active project
+    // controller.todoCreate("this todo stupid name fuck suck dick", "next month", myProject);
+    //views.redrawScreen();
+
+    // todo if submit option is CREATE NUEW PROJECT, then what?
+
 }
 
 export function addProjectEvent(event) {
     // add a project in the GUI
     const target = event.target;
     if (target.id == "add-project") {
+        const modal = document.getElementById("add-project-dialog");
+        modal.showModal();
         controller.projectCreate("New Fucking Project! YOUOHOU!");
         // TODO add modal or input fields
-        views.redrawScreen();
+        // views.redrawScreen();
     }
 }
 
