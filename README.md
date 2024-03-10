@@ -15,4 +15,5 @@ Odin Project TODO App
 - Create the date functionality
 - Add the persistent DB layer for future sessions
 - Add css, different views
+  - flaticon integration
 - etc.

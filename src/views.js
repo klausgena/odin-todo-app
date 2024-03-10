@@ -25,7 +25,8 @@ function addTodoModal(sideYesNo) {
     labelWhat.textContent = "Title";
     labelWhen.textContent = "Due Date";
 
-    submitButton.setAttribute("id", "add-todo-button");
+    submitButton.setAttribute("class", "add-todo-button");
+    submitButton.type = "button";
     cancelButton.setAttribute("id", "cancel-button");
     submitButton.textContent = "Submit";
     cancelButton.textContent = "Cancel";
@@ -114,14 +115,16 @@ export function projectsView() {
     //const addButton = document.createElement('button');
     projects.forEach((project, index) => {
         const li = document.createElement("li");
-        const h2 = document.createElement('h2');
+        const h3 = document.createElement('h3');
         const delSpan = document.createElement('span');
         delSpan.textContent = ' (DEL)';
         delSpan.setAttribute("class", "project-delete");
         delSpan.setAttribute("data-project-index", index);
-        h2.textContent = project.what;
-        h2.appendChild(delSpan);
-        li.appendChild(h2);
+        h3.textContent = project.what;
+        h3.setAttribute("class", "project-list-h3");
+        h3.setAttribute("data-project-index", index);
+        h3.appendChild(delSpan);
+        li.appendChild(h3);
         ul.appendChild(li);
     });
     return ul;
@@ -132,9 +135,10 @@ export function projectTodosView(index) {
     const myProject = controller.getProjectByNumber(index);
     const todos = controller.listTodosForProject(index);
     const addButton = document.createElement('button');
-    const addTodoDialog = addTodoModal(false);
+    const addTodoDialog = addTodoModal(false, index);
     const h2 = document.createElement("h2");
     h2.textContent = myProject.what;
+    h2.setAttribute("data-project-index", index);
     const ul = document.createElement('ul');
     ul.appendChild(h2);
     if (todos.length > 0) {
@@ -190,19 +194,38 @@ export function addEventsToView(node) {
     const container = node;
     container.addEventListener('click', events.addTodoEvent);
     container.addEventListener('click', events.addProjectEvent);
+    container.addEventListener('click', events.showProjectTodosEvent);
     // container.addEventListener('click', events.deleteTodoEvent);
     // container.addEventListener('click', events.deleteProjectEvent);
     // container.addEventListener('click', events.markDoneTodoEvent);
     // return container;
 }
 
-export function redrawScreen() {
+export function redrawScreen(projectIndex) {
     // TODO add 'content' parameter to redraw screen for main content !
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";
     createSidebarComponent(mainDiv);
-    createMainContent(mainDiv, "NULL FOR THE MOMENT");
+    if (projectIndex == undefined) {
+        createMainContent(mainDiv, 0);
+    } else {
+        createMainContent(mainDiv, projectIndex);
+    }
     addEventsToView(mainDiv);
+}
+
+function createMainContent(containerDiv, projectIndex) {
+    // Creates the main content div with the todos of the selected project
+    // or for the selected time period
+    // default view = last project tasks? Today's tasks??
+    const mainDiv = document.createElement("div");
+    const tasksUl = projectTodosView(projectIndex);
+
+    // todo add project title in projecttodosviw function
+    mainDiv.setAttribute("id", "main-tasks-div");
+    mainDiv.appendChild(tasksUl);
+
+    containerDiv.appendChild(mainDiv);
 }
 
 
@@ -253,16 +276,3 @@ function createSidebarComponent(containerDiv) {
     containerDiv.appendChild(sidebarDiv);
 }
 
-function createMainContent(containerDiv, content) {
-    // Creates the main content div with the todos of the selected project
-    // or for the selected time period
-    // default view = last project tasks? Today's tasks??
-    const mainDiv = document.createElement("div");
-    const tasksUl = projectTodosView(0);
-
-    // todo add project title in projecttodosviw function
-    mainDiv.setAttribute("id", "main-tasks-div");
-    mainDiv.appendChild(tasksUl);
-
-    containerDiv.appendChild(mainDiv);
-}

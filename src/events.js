@@ -21,23 +21,58 @@ function getProjectIndex(target) {
 // EVENT HANDLERS
 
 export function addTodoEvent(event) {
+
     const target = event.target;
+    let modal = "";
+
     if (target.id == "add-task") {
-        const modal = document.getElementById("add-main-todo-dialog");
+        modal = document.getElementById("add-main-todo-dialog");
         modal.showModal();
+        modal.addEventListener("click", function (event) {
+            if (event.target.className == "add-todo-button") {
+                const projectIndex = document.querySelector("#add-main-todo-dialog form select").value;
+                const project = controller.getProjectByNumber(projectIndex);
+                console.log(projectIndex);
+                const what = document.querySelector("#add-main-todo-dialog form input").value;
+                const when = document.querySelector("#add-main-todo-dialog form input+label+input").value;
+                if (!what || !when) {
+                    alert("no form data");
+                }
+                else {
+                    controller.todoCreate(what, when, project);
+                    views.redrawScreen(projectIndex);
+                }
+            }
+        })
     }
     else if (target.className == "todo-add") {
-        const modal = document.getElementById("add-todo-dialog");
+        modal = document.getElementById("add-todo-dialog");
         modal.showModal();
+        const projectIndex = modal.parentElement.firstChild.dataset.projectIndex;
+        modal.addEventListener("click", function (event) {
+            if (event.target.className == "add-todo-button") {
+                const project = controller.getProjectByNumber(projectIndex);
+                const what = document.querySelector("#add-todo-dialog form input").value;
+                const when = document.querySelector("#add-todo-dialog form input+label+input").value;
+                if (!what || !when) {
+                    // todo make this more elegant
+                    alert("Form data missing");
+                }
+                else {
+                    controller.todoCreate(what, when, project);
+                }
+                views.redrawScreen(projectIndex);
+            }
+        })
     }
-    //const myProject = getProject(target);
-    // myProject = 0; // dummy TODO edit
-    // if no project then select, else active project
-    // controller.todoCreate("this todo stupid name fuck suck dick", "next month", myProject);
-    //views.redrawScreen();
+}
 
-    // todo if submit option is CREATE NUEW PROJECT, then what?
-
+export function showProjectTodosEvent(event) {
+    const projectsDiv = document.getElementById("project-list");
+    const target = event.target;
+    if (target.className == "project-list-h3") {
+        views.redrawScreen(target.dataset.projectIndex);
+    }
 }
 
 export function addProjectEvent(event) {

@@ -2,13 +2,23 @@ h3:has(input:checked) {
     text-decoration: line-through;
 }
 
+body {
+    margin: 0;
+}
+
 #content {
     display: flex;
 }
 
 #sidebar {
-    flex: 20%;
-    background-color: aqua;
+    font-size: 1rem;
+    padding: 1rem;
+    flex: 20vw;
+    background-color: rgb(245, 241, 183);
+}
+
+#main-tasks-div {
+    flex: 80vw;
 }
 
 .fat-plus {
