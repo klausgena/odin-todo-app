@@ -77,3 +77,7 @@ export function projectAddTodo(project, todo) {
 export function getProjectByNumber(number) {
     return DB.getProjectByNumber(number);
 }
+
+export function getProjectCount() {
+    return DB.getProjectCount();
+}

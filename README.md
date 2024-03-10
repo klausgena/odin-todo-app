@@ -16,4 +16,5 @@ Odin Project TODO App
 - Add the persistent DB layer for future sessions
 - Add css, different views
   - flaticon integration
+- no double projects with same name
 - etc.

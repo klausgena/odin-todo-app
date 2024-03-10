@@ -81,9 +81,19 @@ export function addProjectEvent(event) {
     if (target.id == "add-project") {
         const modal = document.getElementById("add-project-dialog");
         modal.showModal();
-        controller.projectCreate("New Fucking Project! YOUOHOU!");
-        // TODO add modal or input fields
-        // views.redrawScreen();
+        modal.addEventListener('click', function (event) {
+            if (event.target.id == "submit-new-project") {
+                const what = document.querySelector("#add-project-dialog form input").value;
+                if (!what) {
+                    alert("Form Data MISSING");
+                }
+                else {
+                    controller.projectCreate(what);
+                    const projectIndex = controller.getProjectCount();
+                    views.redrawScreen(projectIndex - 1);
+                }
+            }
+        })
     }
 }
 

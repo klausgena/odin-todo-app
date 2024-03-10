@@ -75,6 +75,8 @@ function addProjectModal() {
 
     cancelButton.textContent = "Cancel";
     submitButton.textContent = "Submit";
+    submitButton.setAttribute("id", "submit-new-project");
+    submitButton.type = "button";
 
 
     modal.setAttribute("id", "add-project-dialog");

@@ -35,6 +35,10 @@ class DB {
 	getProjectByNumber(number) {
 		return projects[number];
 	}
+
+	getProjectCount() {
+		return projects.length;
+	}
 }
 let DBInstance = Object.freeze(new DB());
 
