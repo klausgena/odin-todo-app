@@ -3,6 +3,13 @@ import * as events from './events.js';
 
 // helper functions
 
+function createNumberSpan(number) {
+    const span = document.createElement('span');
+    span.setAttribute("class", "number");
+    span.textContent = number;
+    return span;
+}
+
 // event handler views
 
 function addTodoModal(sideYesNo) {
@@ -119,13 +126,17 @@ export function projectsView() {
         const li = document.createElement("li");
         const h3 = document.createElement('h3');
         const delSpan = document.createElement('span');
-        delSpan.textContent = ' (DEL)';
+        const leftSpan = document.createElement('span');
+        delSpan.textContent = ' -';
         delSpan.setAttribute("class", "project-delete");
         delSpan.setAttribute("data-project-index", index);
-        h3.textContent = project.what;
+        leftSpan.textContent = project.what;
+        leftSpan.appendChild(delSpan);
+        h3.appendChild(leftSpan);
         h3.setAttribute("class", "project-list-h3");
+        h3.appendChild(createNumberSpan(controller.getNumberTodosForProject(index)));
+        li.setAttribute("class", "project-list-li");
         h3.setAttribute("data-project-index", index);
-        h3.appendChild(delSpan);
         li.appendChild(h3);
         ul.appendChild(li);
     });
@@ -161,8 +172,8 @@ export function projectTodosView(index) {
 export function todoView(todo, index) {
     // returns a todo with all the details
     const li = document.createElement('li');
-    const ulWhat = document.createElement('ul');
-    const values = [todo.when, todo.urgent, todo.done];
+    const valueSpan = document.createElement('span');
+    const values = { "date": todo.when, "urgent": todo.urgent, "done": todo.done };
     const uiSpan = document.createElement('span');
     const contentSpan = document.createElement('span');
     const checkBox = document.createElement('input');
@@ -173,23 +184,24 @@ export function todoView(todo, index) {
     uiSpan.textContent = (" (DEL)");
     uiSpan.setAttribute("class", "todo-delete");
     uiSpan.setAttribute("data-todo-index", index);
+    contentSpan.setAttribute("class", "todo-description");
     contentSpan.textContent = todo.what;
+    valueSpan.setAttribute("class", "value-span");
     li.appendChild(checkBox);
     li.appendChild(contentSpan);
     li.appendChild(uiSpan);
-    values.forEach((value, index) => {
-        const li = document.createElement('li');
-        const changeSpan = document.createElement('span');
-        changeSpan.textContent = " (EDIT)";
-        changeSpan.setAttribute("class", "todo-edit");
-        changeSpan.setAttribute("data-todo-el-index", index);
-        li.textContent = value;
-        li.appendChild(changeSpan);
-        ulWhat.appendChild(li);
+    Object.values(values).forEach((value, index) => {
+        const span = document.createElement('span');
+        span.textContent = value;
+        span.setAttribute("class", Object.keys(values)[index]);
+        valueSpan.appendChild(span);
     });
-    //li.appendChild(h3);
-
-    li.appendChild(ulWhat);
+    const changeSpan = document.createElement('span');
+    changeSpan.textContent = " (EDIT)";
+    changeSpan.setAttribute("class", "todo-edit");
+    changeSpan.setAttribute("data-todo-el-index", index);
+    li.appendChild(changeSpan);
+    li.appendChild(valueSpan);
     return li;
 }
 
@@ -260,7 +272,11 @@ function createSidebarComponent(containerDiv) {
     addTaskDiv.appendChild(addTaskP);
     addTaskDiv.appendChild(addTodoDialog);
     todayH2.textContent = "Today's Tasks";
+    todayH2.appendChild(createNumberSpan(12));
     futureH2.textContent = "Tasks for later";
+    futureH2.appendChild(createNumberSpan(99));
+
+
     projectsH2.innerHTML = "Projects <span class='fat-plus' id='add-project'>+</span>";
     projectsH2.setAttribute("id", "projects-h2");
     todayDiv.appendChild(todayH2);

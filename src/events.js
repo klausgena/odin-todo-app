@@ -68,7 +68,7 @@ export function addTodoEvent(event) {
 }
 
 export function showProjectTodosEvent(event) {
-    const projectsDiv = document.getElementById("project-list");
+    // const projectsDiv = document.getElementById("project-list");
     const target = event.target;
     if (target.className == "project-list-h3") {
         views.redrawScreen(target.dataset.projectIndex);

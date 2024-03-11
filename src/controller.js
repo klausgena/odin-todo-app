@@ -44,6 +44,10 @@ export function listTodosForProject(number) {
     return myProject.which;
 }
 
+export function getNumberTodosForProject(projectIndex) {
+    return listTodosForProject(projectIndex).length;
+}
+
 // TODO
 export function listTodosByDate() { }
 

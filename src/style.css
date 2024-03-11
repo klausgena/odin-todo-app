@@ -28,6 +28,7 @@ body {
 
 #content {
     display: flex;
+    height: 100vh;
 }
 
 #sidebar {
@@ -58,12 +59,33 @@ p {
     font-size: 1em;
 }
 
+span.number {
+    color: var(--lighttype);
+    font-weight: 100;
+    justify-self: right;
+}
+
 #projects-h2 {
     color: var(--lighttype);
     padding-top: 1rem;
 }
 
+#sidebar h2,
+#sidebar p,
+.project-list-h3 {
+    display: flex;
+    justify-content: space-between;
+}
 
+.project-delete {
+    color: var(--lighttype);
+}
+
+.project-delete:hover,
+#add-task:hover,
+#add-project:hover {
+    color: var(--background);
+}
 
 ul>li {
     list-style: none;
@@ -77,6 +99,15 @@ ul {
 #main-tasks-div {
     flex: 70vw;
     padding-top: 2rem;
+}
+
+#main-tasks-div li {
+    padding-left: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+button.todo-add {
+    margin-left: 2rem;
 }
 
 #add-task>p {
