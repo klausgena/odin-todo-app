@@ -1,9 +1,29 @@
+:root {
+    --greener: #adef93;
+    --green: #bef2a9;
+    --greengreenyellow: #caf2a9;
+    --greenyellow: #daf2a9;
+    --yellowgreen: #eaf2a9;
+    --yellow: #eef2a9;
+    --accent: #e8678c;
+    --darktype: #131810;
+    --type: #2a2f27;
+    --lighttype: #898b87;
+    --background: #f8fdf6;
+}
+
+
+
 h3:has(input:checked) {
     text-decoration: line-through;
 }
 
 body {
     margin: 0;
+    color: var(--type);
+    font-size: 1em;
+    background-color: var(--background);
+    font-family: 'Arial';
 }
 
 #content {
@@ -11,17 +31,57 @@ body {
 }
 
 #sidebar {
-    font-size: 1rem;
-    padding: 1rem;
-    flex: 20vw;
-    background-color: rgb(245, 241, 183);
+    padding: 2rem 0 0 0;
+    flex: 30vw;
+    background-color: var(--greengreenyellow);
+}
+
+h1,
+h2,
+h3,
+p {
+    padding: 0.5rem 1rem 0.5rem 2rem;
+    margin: 0;
+}
+
+#sidebar h3:hover,
+#sidebar h2:hover,
+#add-task>p:hover {
+    background-color: var(--greener);
+    cursor: pointer;
+}
+
+#sidebar h1,
+#sidebar h2,
+#sidebar h3,
+#sidebar p {
+    font-size: 1em;
+}
+
+#projects-h2 {
+    color: var(--lighttype);
+    padding-top: 1rem;
+}
+
+
+
+ul>li {
+    list-style: none;
+}
+
+ul {
+    margin: 0;
+    padding-left: 0;
 }
 
 #main-tasks-div {
-    flex: 80vw;
+    flex: 70vw;
+    padding-top: 2rem;
 }
 
-.fat-plus {
-    font-size: 2rem;
-    font-weight: bold;
+#add-task>p {
+    color: var(--accent);
+    background-color: var(--green);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }

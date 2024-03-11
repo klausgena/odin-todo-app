@@ -7,7 +7,7 @@ const second = controller.projectCreate("@work");
 const third = controller.projectCreate("@pc");
 
 // Create a dummy todo
-const defaultTodo = controller.todoCreate('This todo', 'Now', defaultProject);
-const secondTodo = controller.todoCreate('This 2 todo', 'Today', second);
-const thirdTodo = controller.todoCreate('This todo todo', 'Next week', third);
-const fourthTodo = controller.todoCreate('Thisasdfa todo', 'Tomorrow', third);
+const defaultTodo = controller.todoCreate('Do the dishes', 'Now', defaultProject);
+const secondTodo = controller.todoCreate('Check my email', 'Today', second);
+const thirdTodo = controller.todoCreate('Create backup from pc to SDD', 'Next week', third);
+const fourthTodo = controller.todoCreate('Check on EBay for new keyboard', 'Tomorrow', third);

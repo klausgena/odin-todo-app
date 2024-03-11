@@ -163,8 +163,8 @@ export function todoView(todo, index) {
     const li = document.createElement('li');
     const ulWhat = document.createElement('ul');
     const values = [todo.when, todo.urgent, todo.done];
-    const h3 = document.createElement('h3');
     const uiSpan = document.createElement('span');
+    const contentSpan = document.createElement('span');
     const checkBox = document.createElement('input');
     const checked = (todo.done == 'Yes') ? true : false;
     checkBox.type = 'checkbox';
@@ -173,9 +173,10 @@ export function todoView(todo, index) {
     uiSpan.textContent = (" (DEL)");
     uiSpan.setAttribute("class", "todo-delete");
     uiSpan.setAttribute("data-todo-index", index);
-    h3.textContent = todo.what;
-    h3.appendChild(checkBox);
-    h3.appendChild(uiSpan);
+    contentSpan.textContent = todo.what;
+    li.appendChild(checkBox);
+    li.appendChild(contentSpan);
+    li.appendChild(uiSpan);
     values.forEach((value, index) => {
         const li = document.createElement('li');
         const changeSpan = document.createElement('span');
@@ -186,7 +187,7 @@ export function todoView(todo, index) {
         li.appendChild(changeSpan);
         ulWhat.appendChild(li);
     });
-    li.appendChild(h3);
+    //li.appendChild(h3);
 
     li.appendChild(ulWhat);
     return li;
