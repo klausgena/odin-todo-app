@@ -1,10 +1,10 @@
 import * as controller from './controller.js';
 
 // Create a default project
-const defaultProject = controller.projectCreate('@home');
+const defaultProject = controller.projectCreate('home');
 // add second project and third project
-const second = controller.projectCreate("@work");
-const third = controller.projectCreate("@pc");
+const second = controller.projectCreate("work");
+const third = controller.projectCreate("pc");
 
 // Create a dummy todo
 const defaultTodo = controller.todoCreate('Do the dishes', 'Now', defaultProject);

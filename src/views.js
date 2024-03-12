@@ -10,6 +10,14 @@ function createNumberSpan(number) {
     return span;
 }
 
+function addIcon(iconName) {
+    const i = document.createElement("i");
+    const iconClass = `iconoir-${iconName}`;
+    i.setAttribute("class", iconClass);
+    console.log(i);
+    return i;
+}
+
 // event handler views
 
 function addTodoModal(sideYesNo) {
@@ -127,10 +135,15 @@ export function projectsView() {
         const h3 = document.createElement('h3');
         const delSpan = document.createElement('span');
         const leftSpan = document.createElement('span');
-        delSpan.textContent = ' -';
+        const icon = addIcon("at-sign");
+        const plusIcon = addIcon("plus-circle");
+        const trashIcon = addIcon("trash");
+        const projectWhat = document.createTextNode(project.what);
+        delSpan.appendChild(trashIcon);
         delSpan.setAttribute("class", "project-delete");
         delSpan.setAttribute("data-project-index", index);
-        leftSpan.textContent = project.what;
+        leftSpan.appendChild(projectWhat);
+        leftSpan.insertBefore(icon, projectWhat);
         leftSpan.appendChild(delSpan);
         h3.appendChild(leftSpan);
         h3.setAttribute("class", "project-list-h3");
@@ -150,7 +163,10 @@ export function projectTodosView(index) {
     const addButton = document.createElement('button');
     const addTodoDialog = addTodoModal(false, index);
     const h2 = document.createElement("h2");
-    h2.textContent = myProject.what;
+    const atIcon = addIcon("at-sign");
+    const projectWhat = document.createTextNode(myProject.what);
+    h2.appendChild(atIcon);
+    h2.appendChild(projectWhat);
     h2.setAttribute("data-project-index", index);
     const ul = document.createElement('ul');
     ul.appendChild(h2);
@@ -259,16 +275,19 @@ function createSidebarComponent(containerDiv) {
     const futureH2 = document.createElement("h2");
     const addTodoDialog = addTodoModal(true);
     const addProjectDialog = addProjectModal();
+    const addTaskPContent = document.createTextNode("Add a Task");
+    const plusIcon = addIcon("plus-circle");
 
-    sidebarDiv.setAttribute("id", "sidebar");
     addTaskDiv.setAttribute("id", "add-task");
+    sidebarDiv.setAttribute("id", "sidebar");
     todayDiv.setAttribute("id", "today-div");
     futureDiv.setAttribute("id", "future-div");
     projectListDiv.setAttribute("id", "project-list");
     todayDiv.setAttribute("id", "tasks-for-today");
     futureDiv.setAttribute("id", "future-tasks");
 
-    addTaskP.innerHTML = "Add a task <span class='fat-plus' id='add-task'>+</span>";
+    addTaskP.appendChild(addTaskPContent);
+    addTaskP.appendChild(plusIcon);
     addTaskDiv.appendChild(addTaskP);
     addTaskDiv.appendChild(addTodoDialog);
     todayH2.textContent = "Today's Tasks";

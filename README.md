@@ -7,14 +7,22 @@ Odin Project TODO App
     - [x] todos can be checked OFF
     - [x] you can add todos
     - [] you can edit todos
-    - [x] you can delete todos
+    - [] you can delete todos
     - [] if all todos are checked OFF, the project is also checked off (percentage 100)
     - [x] you can add projects
-    - [x] you can delete projects
+    - [] you can delete projects
     - [ ] you can change project names (edit)
 - Create the date functionality
 - Add the persistent DB layer for future sessions
 - Add css, different views
-  - flaticon integration
+  - [x] style sidebar
+  - [ ] style main div
+  - [ ] flaticon integration
 - no double projects with same name
 - etc.
+
+### Icon list
+- at sign
+- + sign
+- > arrow down for 
+- trash
