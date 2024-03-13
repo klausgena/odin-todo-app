@@ -10,7 +10,7 @@ function createNumberSpan(number) {
     return span;
 }
 
-function addIcon(iconName) {
+export function addIcon(iconName) {
     const i = document.createElement("i");
     const iconClass = `iconoir-${iconName}`;
     i.setAttribute("class", iconClass);
@@ -133,18 +133,11 @@ export function projectsView() {
     projects.forEach((project, index) => {
         const li = document.createElement("li");
         const h3 = document.createElement('h3');
-        const delSpan = document.createElement('span');
         const leftSpan = document.createElement('span');
-        const icon = addIcon("at-sign");
         const plusIcon = addIcon("plus-circle");
-        const trashIcon = addIcon("trash");
         const projectWhat = document.createTextNode(project.what);
-        delSpan.appendChild(trashIcon);
-        delSpan.setAttribute("class", "project-delete");
-        delSpan.setAttribute("data-project-index", index);
+        leftSpan.setAttribute("data-project-index", index);
         leftSpan.appendChild(projectWhat);
-        leftSpan.insertBefore(icon, projectWhat);
-        leftSpan.appendChild(delSpan);
         h3.appendChild(leftSpan);
         h3.setAttribute("class", "project-list-h3");
         h3.appendChild(createNumberSpan(controller.getNumberTodosForProject(index)));
@@ -163,9 +156,9 @@ export function projectTodosView(index) {
     const addButton = document.createElement('button');
     const addTodoDialog = addTodoModal(false, index);
     const h2 = document.createElement("h2");
-    const atIcon = addIcon("at-sign");
+    const folderIcon = addIcon("folder");
     const projectWhat = document.createTextNode(myProject.what);
-    h2.appendChild(atIcon);
+    h2.appendChild(folderIcon);
     h2.appendChild(projectWhat);
     h2.setAttribute("data-project-index", index);
     const ul = document.createElement('ul');
@@ -194,10 +187,14 @@ export function todoView(todo, index) {
     const contentSpan = document.createElement('span');
     const checkBox = document.createElement('input');
     const checked = (todo.done == 'Yes') ? true : false;
+    const trashIcon = addIcon("trash");
+    const editIcon = addIcon("edit");
+
+
     checkBox.type = 'checkbox';
     checkBox.setAttribute("data-todo-index", index);
     checkBox.checked = checked;
-    uiSpan.textContent = (" (DEL)");
+    uiSpan.appendChild(trashIcon);
     uiSpan.setAttribute("class", "todo-delete");
     uiSpan.setAttribute("data-todo-index", index);
     contentSpan.setAttribute("class", "todo-description");
@@ -205,7 +202,6 @@ export function todoView(todo, index) {
     valueSpan.setAttribute("class", "value-span");
     li.appendChild(checkBox);
     li.appendChild(contentSpan);
-    li.appendChild(uiSpan);
     Object.values(values).forEach((value, index) => {
         const span = document.createElement('span');
         span.textContent = value;
@@ -213,11 +209,14 @@ export function todoView(todo, index) {
         valueSpan.appendChild(span);
     });
     const changeSpan = document.createElement('span');
-    changeSpan.textContent = " (EDIT)";
+    changeSpan.appendChild(editIcon);
     changeSpan.setAttribute("class", "todo-edit");
     changeSpan.setAttribute("data-todo-el-index", index);
-    li.appendChild(changeSpan);
+    valueSpan.appendChild(changeSpan);
+    valueSpan.appendChild(uiSpan);
     li.appendChild(valueSpan);
+
+
     return li;
 }
 
@@ -226,6 +225,7 @@ export function addEventsToView(node) {
     container.addEventListener('click', events.addTodoEvent);
     container.addEventListener('click', events.addProjectEvent);
     container.addEventListener('click', events.showProjectTodosEvent);
+    container.addEventListener('mouseover', events.trashIconOnMouseOver);
     // container.addEventListener('click', events.deleteTodoEvent);
     // container.addEventListener('click', events.deleteProjectEvent);
     // container.addEventListener('click', events.markDoneTodoEvent);
@@ -277,6 +277,7 @@ function createSidebarComponent(containerDiv) {
     const addProjectDialog = addProjectModal();
     const addTaskPContent = document.createTextNode("Add a Task");
     const plusIcon = addIcon("plus-circle");
+    const plusIcon2 = addIcon("plus-circle");
 
     addTaskDiv.setAttribute("id", "add-task");
     sidebarDiv.setAttribute("id", "sidebar");
@@ -287,7 +288,7 @@ function createSidebarComponent(containerDiv) {
     futureDiv.setAttribute("id", "future-tasks");
 
     addTaskP.appendChild(addTaskPContent);
-    addTaskP.appendChild(plusIcon);
+    addTaskP.appendChild(plusIcon2);
     addTaskDiv.appendChild(addTaskP);
     addTaskDiv.appendChild(addTodoDialog);
     todayH2.textContent = "Today's Tasks";
@@ -296,8 +297,9 @@ function createSidebarComponent(containerDiv) {
     futureH2.appendChild(createNumberSpan(99));
 
 
-    projectsH2.innerHTML = "Projects <span class='fat-plus' id='add-project'>+</span>";
+    projectsH2.innerHTML = "Projects";
     projectsH2.setAttribute("id", "projects-h2");
+    projectsH2.appendChild(plusIcon);
     todayDiv.appendChild(todayH2);
     futureDiv.appendChild(futureH2);
     projectListDiv.appendChild(projectsH2);

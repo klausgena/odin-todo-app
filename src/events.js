@@ -139,3 +139,19 @@ export function editTodoElementEvent() {
 export function toggleTreeEvent() {
 
 }
+
+export function trashIconOnMouseOver(event) {
+    const target = event.target;
+    const parent = target.parentNode.nodeName;
+    if (target.className == "number" && parent == "H3") {
+        const trashIcon = views.addIcon("trash");
+        const number = target.textContent;
+        target.textContent = "";
+        target.appendChild(trashIcon);
+        target.addEventListener("mouseout", function () {
+            setTimeout(function () {
+                target.textContent = number;
+            }, 500)
+        });
+    };
+}
