@@ -164,8 +164,8 @@ export function projectTodosView(index) {
     const ul = document.createElement('ul');
     ul.appendChild(h2);
     if (todos.length > 0) {
-        todos.forEach((todo, index) => {
-            const ulTodo = todoView(todo, index);
+        todos.forEach((todo, myIndex) => {
+            const ulTodo = todoView(todo, myIndex, index);
             ul.appendChild(ulTodo);
         });
     } else {
@@ -178,11 +178,10 @@ export function projectTodosView(index) {
     return ul;
 }
 
-export function todoView(todo, index) {
+export function todoView(todo, todoIndex, projectIndex) {
     // returns a todo with all the details
     const li = document.createElement('li');
-    const valueSpan = document.createElement('span');
-    const values = { "date": todo.when, "urgent": todo.urgent, "done": todo.done };
+    const dateSpan = document.createElement('span');
     const uiSpan = document.createElement('span');
     const contentSpan = document.createElement('span');
     const checkBox = document.createElement('input');
@@ -192,29 +191,29 @@ export function todoView(todo, index) {
 
 
     checkBox.type = 'checkbox';
-    checkBox.setAttribute("data-todo-index", index);
+    checkBox.setAttribute("data-todo-index", todoIndex);
+    checkBox.setAttribute("data-project-index", projectIndex);
     checkBox.checked = checked;
     uiSpan.appendChild(trashIcon);
     uiSpan.setAttribute("class", "todo-delete");
-    uiSpan.setAttribute("data-todo-index", index);
+    uiSpan.setAttribute("data-todo-index", todoIndex);
     contentSpan.setAttribute("class", "todo-description");
     contentSpan.textContent = todo.what;
-    valueSpan.setAttribute("class", "value-span");
+    dateSpan.setAttribute("class", "date-span");
     li.appendChild(checkBox);
     li.appendChild(contentSpan);
-    Object.values(values).forEach((value, index) => {
-        const span = document.createElement('span');
-        span.textContent = value;
-        span.setAttribute("class", Object.keys(values)[index]);
-        valueSpan.appendChild(span);
-    });
+
+    const span = document.createElement('span');
+    span.textContent = todo.when;
+    dateSpan.appendChild(span);
+
     const changeSpan = document.createElement('span');
     changeSpan.appendChild(editIcon);
     changeSpan.setAttribute("class", "todo-edit");
-    changeSpan.setAttribute("data-todo-el-index", index);
-    valueSpan.appendChild(changeSpan);
-    valueSpan.appendChild(uiSpan);
-    li.appendChild(valueSpan);
+    changeSpan.setAttribute("data-todo-el-index", todoIndex);
+    dateSpan.appendChild(changeSpan);
+    dateSpan.appendChild(uiSpan);
+    li.appendChild(dateSpan);
 
 
     return li;
@@ -226,14 +225,13 @@ export function addEventsToView(node) {
     container.addEventListener('click', events.addProjectEvent);
     container.addEventListener('click', events.showProjectTodosEvent);
     container.addEventListener('mouseover', events.trashIconOnMouseOver);
+    container.addEventListener('click', events.markDoneTodoEvent);
     // container.addEventListener('click', events.deleteTodoEvent);
     // container.addEventListener('click', events.deleteProjectEvent);
-    // container.addEventListener('click', events.markDoneTodoEvent);
     // return container;
 }
 
 export function redrawScreen(projectIndex) {
-    // TODO add 'content' parameter to redraw screen for main content !
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";
     createSidebarComponent(mainDiv);
@@ -280,6 +278,7 @@ function createSidebarComponent(containerDiv) {
     const plusIcon2 = addIcon("plus-circle");
 
     addTaskDiv.setAttribute("id", "add-task");
+    addTaskP.setAttribute("class", "add-task");
     sidebarDiv.setAttribute("id", "sidebar");
     todayDiv.setAttribute("id", "today-div");
     futureDiv.setAttribute("id", "future-div");

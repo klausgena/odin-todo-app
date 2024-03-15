@@ -111,6 +111,9 @@ ul {
 #main-tasks-div li {
     padding-left: 2rem;
     padding-bottom: 0.5rem;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    align-items: center;
 }
 
 #main-tasks-div h2 {
@@ -134,8 +137,8 @@ button.todo-add {
     margin-right: 0.2em;
 }
 
-.value-span {
-    display: block;
+.date-span {
     font-size: 0.8rem;
     color: var(--lighttype);
+    grid-column-start: 2;
 }

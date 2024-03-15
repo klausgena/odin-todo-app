@@ -1,23 +1,6 @@
 import * as views from './views.js';
 import * as controller from './controller.js';
 
-
-// HELPER FUNCTIONS
-
-function getProject(target) {
-    // Gets the project out of the Dom tree
-    const projectLi = target.closest("h2 + ul").parentElement;
-    const projectId = projectLi.querySelector("span").dataset.projectIndex;
-    const myProject = controller.getProjectByNumber(projectId);
-    return myProject;
-}
-
-function getProjectIndex(target) {
-    // Gets the project index out of the Dom tree
-    const projectLi = target.closest("h2 + ul").parentElement;
-    return projectLi.querySelector("span").dataset.projectIndex;
-}
-
 // EVENT HANDLERS
 
 export function addTodoEvent(event) {
@@ -25,7 +8,7 @@ export function addTodoEvent(event) {
     const target = event.target;
     let modal = "";
 
-    if (target.id == "add-task") {
+    if (target.className == "add-task") {
         modal = document.getElementById("add-main-todo-dialog");
         modal.showModal();
         modal.addEventListener("click", function (event) {
@@ -68,7 +51,6 @@ export function addTodoEvent(event) {
 }
 
 export function showProjectTodosEvent(event) {
-    // const projectsDiv = document.getElementById("project-list");
     const target = event.target;
     if (target.className == "project-list-h3") {
         views.redrawScreen(target.dataset.projectIndex);
@@ -78,7 +60,7 @@ export function showProjectTodosEvent(event) {
 export function addProjectEvent(event) {
     // add a project in the GUI
     const target = event.target;
-    if (target.id == "add-project") {
+    if (target.id == "projects-h2") {
         const modal = document.getElementById("add-project-dialog");
         modal.showModal();
         modal.addEventListener('click', function (event) {
@@ -125,10 +107,10 @@ export function markDoneTodoEvent(event) {
     // mark a todo as done in the GUI
     const target = event.target;
     if (target.type == "checkbox") {
-        const projectIndex = getProjectIndex(target);
+        const projectIndex = target.dataset.projectIndex;
         const todoIndex = target.dataset.todoIndex;
         controller.projectTodoMarkDone(todoIndex, projectIndex);
-        views.redrawScreen();
+        views.redrawScreen(projectIndex);
     }
 }
 
@@ -148,10 +130,10 @@ export function trashIconOnMouseOver(event) {
         const number = target.textContent;
         target.textContent = "";
         target.appendChild(trashIcon);
-        target.addEventListener("mouseout", function () {
+        target.addEventListener("mouseleave", function () {
             setTimeout(function () {
                 target.textContent = number;
-            }, 500)
+            }, 150)
         });
     };
 }

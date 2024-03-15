@@ -11,7 +11,7 @@ Odin Project TODO App
     - [] if all todos are checked OFF, the project is also checked off (percentage 100)
     - [x] you can add projects
     - [] you can delete projects
-    - [ ] you can change project names (edit)
+    - [] you can change project names (edit)
 - Create the date functionality
 - Add the persistent DB layer for future sessions
 - Add css, different views
