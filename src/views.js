@@ -116,12 +116,29 @@ function editTodoModal() {
 }
 
 // All views users can interact with
-export function dateView() {
+export function dateView(date) {
     // returns the todo list, ordered by date and divided into 4 categories:
     // Today, This week, This Month and Later
+    // add a count
+    // it's a sort of filter, that divides the todo's into these categories
+    // TODO get first day of the month, get first day of the week for
+    // a better understanding;
+    const today = new Date.now();
+    const difference = Date.parse(date) - today;
+    const day = 86400000;
+    if (difference < day + 1) {
+        console.log("One day or less. Next 24 hours.");
+    }
+    else if (difference < day * 7) {
+        console.log("Within a week from now");
+    }
+    else {
+        console.log("More than a week from now");
+    }
 }
 
 export function todayView() {
+    dateview(today);
     // returns the list of todos for today
 }
 
