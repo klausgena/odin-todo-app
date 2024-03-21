@@ -1,5 +1,5 @@
 // TODO give each todo an unique ID
-// TODO add each todo to a certain project (else: Default
+// TODO add each todo to a certain project (else: Default)!!!
 
 class Todo {
     #what;
@@ -10,7 +10,7 @@ class Todo {
 
     constructor(what, when, project = "Default", isUrgent = 'No', isFinished = 'No') {
         this.#what = what;
-        this.#when = when;
+        this.#when = Date.parse(when);
         this.#project = project;
         this.#isUrgent = isUrgent;
         this.#isFinished = isFinished;
@@ -34,7 +34,7 @@ class Todo {
         this.#what = what;
     }
     set when(when) {
-        this.#when = when;
+        this.#when = Date.parse(when);
     }
     set urgent(yesNo) {
         this.#isUrgent = yesNo;

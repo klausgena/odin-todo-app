@@ -49,7 +49,22 @@ export function getNumberTodosForProject(projectIndex) {
 }
 
 // TODO
-export function listTodosByDate() { }
+
+export function getAllTodos() {
+    // gets all todos as twodimensional array starting with the 
+    // name of each project
+    const allTodos = [];
+    const projects = listProjects();
+    projects.forEach((project, index) => {
+        const todos = [project.what, listTodosForProject(index)];
+        allTodos.push(todos);
+    })
+    return allTodos;
+}
+
+export function listTodosByDate() {
+
+}
 
 
 export function listProjects() {

@@ -1,6 +1,9 @@
 import * as controller from './controller.js';
 import * as events from './events.js';
 
+import { formatDistanceToNow, isToday } from 'date-fns';
+
+
 // helper functions
 
 function createNumberSpan(number) {
@@ -14,7 +17,6 @@ export function addIcon(iconName) {
     const i = document.createElement("i");
     const iconClass = `iconoir-${iconName}`;
     i.setAttribute("class", iconClass);
-    console.log(i);
     return i;
 }
 
@@ -123,23 +125,35 @@ export function dateView(date) {
     // it's a sort of filter, that divides the todo's into these categories
     // TODO get first day of the month, get first day of the week for
     // a better understanding;
-    const today = new Date.now();
-    const difference = Date.parse(date) - today;
-    const day = 86400000;
-    if (difference < day + 1) {
-        console.log("One day or less. Next 24 hours.");
-    }
-    else if (difference < day * 7) {
-        console.log("Within a week from now");
-    }
-    else {
-        console.log("More than a week from now");
+    const allTodos = controller.getAllTodos();
+
+
+}
+
+export function simpleDueDate(todoWhen) {
+    // show today, tomorrow, in 7 days, soon, next week, etc.
+    // under the todo description in the main field. Returns a string.
+    if (isToday(todoWhen)) {
+        return "today";
+    } else {
+        return formatDistanceToNow(todoWhen, { addSuffix: true });
     }
 }
 
 export function todayView() {
-    dateview(today);
-    // returns the list of todos for today
+    // return a list with all todos for today
+    // (including the project names?) TODO: change the todo model
+    const allTodos = controller.getAllTodos();
+    const todosForToday = [];
+    allTodos.forEach((project, index) => {
+        const projectTodos = allTodos[index][1];
+        const todaysTodos = projectTodos.filter((todo) => isToday(todo.when));
+        if (todaysTodos.length > 0) {
+            todosForToday.push(todaysTodos);
+        }
+    })
+    console.log(todosForToday);
+    return todosForToday;
 }
 
 export function projectsView() {
@@ -221,7 +235,7 @@ export function todoView(todo, todoIndex, projectIndex) {
     li.appendChild(contentSpan);
 
     const span = document.createElement('span');
-    span.textContent = todo.when;
+    span.textContent = simpleDueDate(todo.when);
     dateSpan.appendChild(span);
 
     const changeSpan = document.createElement('span');
@@ -308,7 +322,7 @@ function createSidebarComponent(containerDiv) {
     addTaskDiv.appendChild(addTaskP);
     addTaskDiv.appendChild(addTodoDialog);
     todayH2.textContent = "Today's Tasks";
-    todayH2.appendChild(createNumberSpan(12));
+    todayH2.appendChild(createNumberSpan(todayView().length));
     futureH2.textContent = "Tasks for later";
     futureH2.appendChild(createNumberSpan(99));
 
