@@ -2,6 +2,7 @@
 import { Todo } from './todo.js';
 import { Project } from './project.js';
 import { default as DB } from './db.js';
+import { formatDistanceToNow, isToday, isPast, isFuture } from 'date-fns';
 
 // Todo actions
 // TODO Make every function return something
@@ -46,6 +47,44 @@ export function listTodosForProject(number) {
 
 export function getNumberTodosForProject(projectIndex) {
     return listTodosForProject(projectIndex).length;
+}
+
+export function getTodosForPeriod(date) {
+    // return a list with all todos for today, future, past
+    // (including the project names?) TODO: change the todo model
+    const dateCheck = function (when) {
+        if (date === "today") {
+            if (isToday(when)) {
+                return true;
+            }
+        }
+        else if (date === "future") {
+            if (isFuture(when)) {
+                return true;
+            }
+        }
+        else if (date === "past") {
+            if (isPast(when)) {
+                return true;
+            }
+        }
+        else throw console.error("No or wrong date inserted");
+    };
+    const allTodos = getAllTodos();
+    console.log(allTodos.length);
+    const todosForPeriod = [];
+    allTodos.forEach((project, index) => {
+        const projectTodos = allTodos[index][1];
+        console.log(projectTodos);
+        const periodTodos = projectTodos.filter((todo) => dateCheck(todo.when));
+        console.log(periodTodos);
+        if (periodTodos.length > 0) {
+            console.log(periodTodos.length);
+            todosForPeriod.push(periodTodos);
+        }
+    })
+    console.log(todosForPeriod.length);
+    return todosForPeriod;
 }
 
 // TODO

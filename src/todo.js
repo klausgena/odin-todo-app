@@ -29,6 +29,9 @@ class Todo {
     get done() {
         return this.#isFinished;
     }
+    get project() {
+        return this.#project;
+    }
     // setters
     set what(what) {
         this.#what = what;

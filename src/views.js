@@ -125,7 +125,11 @@ export function dateView(date) {
     // it's a sort of filter, that divides the todo's into these categories
     // TODO get first day of the month, get first day of the week for
     // a better understanding;
+    // if date === today / later / due
     const allTodos = controller.getAllTodos();
+    const todaysTodos = controller.getTodosForPeriod("today");
+    const dueTodos = controller.getTodosForPeriod("past");
+    const laterTodos = controller.getTodosForPeriod("future");
 
 
 }
@@ -138,22 +142,6 @@ export function simpleDueDate(todoWhen) {
     } else {
         return formatDistanceToNow(todoWhen, { addSuffix: true });
     }
-}
-
-export function todayView() {
-    // return a list with all todos for today
-    // (including the project names?) TODO: change the todo model
-    const allTodos = controller.getAllTodos();
-    const todosForToday = [];
-    allTodos.forEach((project, index) => {
-        const projectTodos = allTodos[index][1];
-        const todaysTodos = projectTodos.filter((todo) => isToday(todo.when));
-        if (todaysTodos.length > 0) {
-            todosForToday.push(todaysTodos);
-        }
-    })
-    console.log(todosForToday);
-    return todosForToday;
 }
 
 export function projectsView() {
@@ -262,6 +250,8 @@ export function addEventsToView(node) {
     // return container;
 }
 
+
+// todo: maybe use a functoin as paramter instead of 'projectINDEX'
 export function redrawScreen(projectIndex) {
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";
@@ -297,11 +287,13 @@ function createSidebarComponent(containerDiv) {
     const projectListDiv = document.createElement("div");
     const todayDiv = document.createElement("div");
     const futureDiv = document.createElement("div");
+    const pastDiv = document.createElement("div");
     const addTaskP = document.createElement("p");
     const projectListUl = projectsView();
     const projectsH2 = document.createElement("h2");
     const todayH2 = document.createElement("h2");
     const futureH2 = document.createElement("h2");
+    const pastH2 = document.createElement("h2");
     const addTodoDialog = addTodoModal(true);
     const addProjectDialog = addProjectModal();
     const addTaskPContent = document.createTextNode("Add a Task");
@@ -311,8 +303,7 @@ function createSidebarComponent(containerDiv) {
     addTaskDiv.setAttribute("id", "add-task");
     addTaskP.setAttribute("class", "add-task");
     sidebarDiv.setAttribute("id", "sidebar");
-    todayDiv.setAttribute("id", "today-div");
-    futureDiv.setAttribute("id", "future-div");
+    pastDiv.setAttribute("id", "overdue-tasks");
     projectListDiv.setAttribute("id", "project-list");
     todayDiv.setAttribute("id", "tasks-for-today");
     futureDiv.setAttribute("id", "future-tasks");
@@ -322,9 +313,12 @@ function createSidebarComponent(containerDiv) {
     addTaskDiv.appendChild(addTaskP);
     addTaskDiv.appendChild(addTodoDialog);
     todayH2.textContent = "Today's Tasks";
-    todayH2.appendChild(createNumberSpan(todayView().length));
-    futureH2.textContent = "Tasks for later";
-    futureH2.appendChild(createNumberSpan(99));
+    todayH2.appendChild(createNumberSpan(controller.getTodosForPeriod("today").length));
+    futureH2.textContent = "Tasks For Later";
+    futureH2.appendChild(createNumberSpan(controller.getTodosForPeriod("future").length));
+    pastH2.textContent = "Overdue Tasks";
+    pastH2.appendChild(createNumberSpan(controller.getTodosForPeriod("past").length));
+
 
 
     projectsH2.innerHTML = "Projects";
@@ -332,12 +326,14 @@ function createSidebarComponent(containerDiv) {
     projectsH2.appendChild(plusIcon);
     todayDiv.appendChild(todayH2);
     futureDiv.appendChild(futureH2);
+    pastDiv.appendChild(pastH2);
     projectListDiv.appendChild(projectsH2);
     projectListDiv.appendChild(projectListUl);
     headerH1.textContent = "My TODO list";
 
     sidebarDiv.appendChild(headerH1);
     sidebarDiv.appendChild(addTaskDiv);
+    sidebarDiv.appendChild(pastDiv);
     sidebarDiv.appendChild(todayDiv);
     sidebarDiv.appendChild(futureDiv);
     sidebarDiv.appendChild(projectListDiv);
