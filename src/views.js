@@ -119,19 +119,31 @@ function editTodoModal() {
 
 // All views users can interact with
 export function dateView(date) {
-    // returns the todo list, ordered by date and divided into 4 categories:
-    // Today, This week, This Month and Later
-    // add a count
-    // it's a sort of filter, that divides the todo's into these categories
-    // TODO get first day of the month, get first day of the week for
-    // a better understanding;
-    // if date === today / later / due
-    const allTodos = controller.getAllTodos();
-    const todaysTodos = controller.getTodosForPeriod("today");
-    const dueTodos = controller.getTodosForPeriod("past");
-    const laterTodos = controller.getTodosForPeriod("future");
-
-
+    // date view of the todo list: three options:
+    // if date === today / future / past
+    // share a lot of functionality with projectTodosView
+    const dateTodos = controller.getTodosForPeriod(date);
+    // is array with project indexes in first level
+    const h2 = document.createElement("h2");
+    const folderIcon = addIcon("folder");
+    const projectWhat = `Todos For ${date.toUpperCase()}`;
+    h2.appendChild(folderIcon);
+    h2.textContent = projectWhat;
+    const ul = document.createElement('ul');
+    ul.appendChild(h2);
+    dateTodos.forEach((projectIndex, index) => {
+        const todos = projectIndex;
+        if (todos == undefined) {
+            console.log(`No todos for project ${index}`);
+        }
+        else if (todos.length > 0) {
+            todos.forEach((todo, myIndex) => {
+                const ulTodo = todoView(todo, myIndex, index); // add project Index
+                ul.appendChild(ulTodo);
+            });
+        }
+    });
+    return ul;
 }
 
 export function simpleDueDate(todoWhen) {
@@ -211,7 +223,9 @@ export function todoView(todo, todoIndex, projectIndex) {
 
     checkBox.type = 'checkbox';
     checkBox.setAttribute("data-todo-index", todoIndex);
-    checkBox.setAttribute("data-project-index", projectIndex);
+    if (projectIndex) {
+        checkBox.setAttribute("data-project-index", projectIndex);
+    };
     checkBox.checked = checked;
     uiSpan.appendChild(trashIcon);
     uiSpan.setAttribute("class", "todo-delete");
@@ -243,6 +257,7 @@ export function addEventsToView(node) {
     container.addEventListener('click', events.addTodoEvent);
     container.addEventListener('click', events.addProjectEvent);
     container.addEventListener('click', events.showProjectTodosEvent);
+    container.addEventListener('click', events.showTodosByDateEvent);
     container.addEventListener('mouseover', events.trashIconOnMouseOver);
     container.addEventListener('click', events.markDoneTodoEvent);
     // container.addEventListener('click', events.deleteTodoEvent);
@@ -252,24 +267,33 @@ export function addEventsToView(node) {
 
 
 // todo: maybe use a functoin as paramter instead of 'projectINDEX'
-export function redrawScreen(projectIndex) {
+export function redrawScreen(projectIndex, date) {
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";
     createSidebarComponent(mainDiv);
-    if (projectIndex == undefined) {
+    if (projectIndex == undefined && date == undefined) {
         createMainContent(mainDiv, 0);
-    } else {
+    } else if (projectIndex) {
         createMainContent(mainDiv, projectIndex);
+    } else if (date) {
+        createMainContent(mainDiv, 0, date);
+    } else {
+        createMainContent(mainDiv, 0);
     }
     addEventsToView(mainDiv);
 }
 
-function createMainContent(containerDiv, projectIndex) {
+function createMainContent(containerDiv, projectIndex, date) {
     // Creates the main content div with the todos of the selected project
     // or for the selected time period
     // default view = last project tasks? Today's tasks??
     const mainDiv = document.createElement("div");
-    const tasksUl = projectTodosView(projectIndex);
+    let tasksUl = "";
+    if (date) {
+        tasksUl = dateView(date);
+    } else {
+        tasksUl = projectTodosView(projectIndex);
+    }
 
     // todo add project title in projecttodosviw function
     mainDiv.setAttribute("id", "main-tasks-div");
@@ -313,11 +337,14 @@ function createSidebarComponent(containerDiv) {
     addTaskDiv.appendChild(addTaskP);
     addTaskDiv.appendChild(addTodoDialog);
     todayH2.textContent = "Today's Tasks";
-    todayH2.appendChild(createNumberSpan(controller.getTodosForPeriod("today").length));
+    todayH2.setAttribute("class", "date-view-today");
+    todayH2.appendChild(createNumberSpan(controller.countTodosForPeriod("today")));
     futureH2.textContent = "Tasks For Later";
-    futureH2.appendChild(createNumberSpan(controller.getTodosForPeriod("future").length));
+    futureH2.setAttribute('class', 'date-view-future');
+    futureH2.appendChild(createNumberSpan(controller.countTodosForPeriod("future")));
     pastH2.textContent = "Overdue Tasks";
-    pastH2.appendChild(createNumberSpan(controller.getTodosForPeriod("past").length));
+    pastH2.setAttribute('class', 'date-view-past');
+    pastH2.appendChild(createNumberSpan(controller.countTodosForPeriod("past")));
 
 
 

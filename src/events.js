@@ -57,6 +57,19 @@ export function showProjectTodosEvent(event) {
     }
 }
 
+export function showTodosByDateEvent(event) {
+    const target = event.target;
+    if (target.className == "date-view-today") {
+        views.redrawScreen(0, "today");
+    }
+    else if (target.className == "date-view-future") {
+        views.redrawScreen(0, "future");
+    }
+    else if (target.className == "date-view-past") {
+        views.redrawScreen(0, "past");
+    }
+}
+
 export function addProjectEvent(event) {
     // add a project in the GUI
     const target = event.target;
