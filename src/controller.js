@@ -75,7 +75,7 @@ export function getTodosForPeriod(date) {
             }
         }
         else if (date === "past") {
-            if (isPast(when)) {
+            if (isPast(when) && !(isToday(when))) {
                 return true;
             }
         }
