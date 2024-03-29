@@ -39,6 +39,17 @@ class DB {
 	getProjectCount() {
 		return projects.length;
 	}
+
+	saveProjects() {
+		localStorage.setItem('ns-todo-app', JSON.stringify(projects));
+		console.log(JSON.parse(JSON.stringify(projects)));
+		console.log('Projects saved.');
+	}
+
+	loadProjects() {
+		projects = JSON.parse(localStorage.getItem('ns-todo-app'));
+		return projects;
+	}
 }
 let DBInstance = Object.freeze(new DB());
 

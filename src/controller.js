@@ -144,3 +144,11 @@ export function getProjectByNumber(number) {
 export function getProjectCount() {
     return DB.getProjectCount();
 }
+
+export function saveProjects() {
+    DB.saveProjects();
+}
+
+export function loadProjects() {
+    DB.loadProjects();
+}

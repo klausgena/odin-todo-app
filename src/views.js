@@ -159,6 +159,7 @@ export function simpleDueDate(todoWhen) {
 export function projectsView() {
     // returns the list of all projects
     const projects = controller.listProjects();
+    console.log(projects);
     const ul = document.createElement("ul");
     //const addButton = document.createElement('button');
     projects.forEach((project, index) => {
@@ -268,6 +269,23 @@ export function addEventsToView(node) {
 
 // todo: maybe use a functoin as paramter instead of 'projectINDEX'
 export function redrawScreen(projectIndex, date) {
+    // save projects or make new
+    if (localStorage.getItem('ns-todo-projects') == null) {
+        const defaultProject = controller.projectCreate('home');
+        // add second project and third project
+        const second = controller.projectCreate("work");
+        const third = controller.projectCreate("pc");
+
+        // Create a dummy todo
+        // TODO teh create function should have project.what!! else it keeps a copy of the project in each todo
+        const defaultTodo = controller.todoCreate('Do the dishes', "2024-03-22", defaultProject);
+        const secondTodo = controller.todoCreate('Check my email', "2024-06-10", second);
+        const thirdTodo = controller.todoCreate('Create backup from pc to SDD', "2024-04-04", third);
+        const fourthTodo = controller.todoCreate('Check on EBay for new keyboard', "2023-03-23", third);
+    }
+    // load projects, if any. 
+    controller.saveProjects();
+    // controller.loadProjects();
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";
     createSidebarComponent(mainDiv);
