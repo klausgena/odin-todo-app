@@ -17,7 +17,7 @@ export function addTodoEvent(event) {
                 const project = controller.getProjectByNumber(projectIndex);
                 console.log(projectIndex);
                 const what = document.querySelector("#add-main-todo-dialog form input").value;
-                const when = document.querySelector("#add-main-todo-dialog form input+label+input").value;
+                const when = Date.parse(document.querySelector("#add-main-todo-dialog form input+label+input").value);
                 if (!what || !when) {
                     alert("no form data");
                 }
@@ -36,7 +36,7 @@ export function addTodoEvent(event) {
             if (event.target.className == "add-todo-button") {
                 const project = controller.getProjectByNumber(projectIndex);
                 const what = document.querySelector("#add-todo-dialog form input").value;
-                const when = document.querySelector("#add-todo-dialog form input+label+input").value;
+                const when = Date.parse(document.querySelector("#add-todo-dialog form input+label+input").value);
                 if (!what || !when) {
                     // todo make this more elegant
                     alert("Form data missing");
