@@ -278,7 +278,7 @@ export function redrawScreen(projectIndex, date) {
         controller.loadProjects('ns-todo-projects');
     }
     // checken of er projects zijn of of storage niet leeg is?
-    controller.saveProjects('ns-todo-projects');
+    // een flag voor changes????
     controller.loadProjects('ns-todo-projects');
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";

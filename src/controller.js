@@ -14,12 +14,14 @@ export function todoIsDone(todo) {
 
 export function todoDelete(project, todoIndex) {
     project.delete(todoIndex);
+    controller.saveProjects('ns-todo-projects');
     return project;
 }
 
 export function todoCreate(what, when, project) {
     const todo = new Todo(what, when);
     project.add(todo);
+    saveProjects('ns-todo-projects');
     return project;
 }
 
@@ -28,6 +30,7 @@ export function todoEdit(todo, what, when, urgent) {
     todo.what = what;
     todo.when = when;
     todo.urgent = urgent;
+    controller.saveProjects('ns-todo-projects');
     return todo;
 }
 
@@ -35,6 +38,7 @@ export function projectTodoMarkDone(todoIndex, projectIndex) {
     const project = getProjectByNumber(projectIndex);
     const todo = project.todo(todoIndex);
     todoIsDone(todo);
+    controller.saveProjects('ns-todo-projects');
     console.log(`Todo ${todo.what} is marked as done.`);
 }
 
@@ -120,20 +124,24 @@ export function listProjects() {
 export function projectCreate(name) {
     const project = new Project(name);
     DB.addProject(project);
+    controller.saveProjects('ns-todo-projects');
     return project;
 }
 
 export function projectDelete(project) {
     DB.deleteProject(project);
     project = null;
+    controller.saveProjects('ns-todo-projects');
 }
 
 export function projectEdit(project, name) {
     project.what = name;
+    controller.saveProjects('ns-todo-projects');
 }
 
 export function projectAddTodo(project, todo) {
     project.add(todo);
+    controller.saveProjects('ns-todo-projects');
     return project;
 }
 
