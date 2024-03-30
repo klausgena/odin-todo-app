@@ -159,7 +159,6 @@ export function simpleDueDate(todoWhen) {
 export function projectsView() {
     // returns the list of all projects
     const projects = controller.listProjects();
-    console.log(projects);
     const ul = document.createElement("ul");
     //const addButton = document.createElement('button');
     projects.forEach((project, index) => {
@@ -266,26 +265,20 @@ export function addEventsToView(node) {
     // return container;
 }
 
-
-// todo: maybe use a functoin as paramter instead of 'projectINDEX'
 export function redrawScreen(projectIndex, date) {
     // save projects or make new
     if (localStorage.getItem('ns-todo-projects') == null) {
-        const defaultProject = controller.projectCreate('home');
-        // add second project and third project
-        const second = controller.projectCreate("work");
-        const third = controller.projectCreate("pc");
+        const projectList = [];
+        const defaultProject = { 'what': 'Default', 'todos': [] };
+        const defaultTodo = { 'what': 'Delete this todo', 'when': Date.now() };
+        defaultProject.todos.push(defaultTodo);
+        projectList.push(defaultProject);
 
-        // Create a dummy todo
-        // TODO teh create function should have project.what!! else it keeps a copy of the project in each todo
-        const defaultTodo = controller.todoCreate('Do the dishes', "2024-03-22", defaultProject);
-        const secondTodo = controller.todoCreate('Check my email', "2024-06-10", second);
-        const thirdTodo = controller.todoCreate('Create backup from pc to SDD', "2024-04-04", third);
-        const fourthTodo = controller.todoCreate('Check on EBay for new keyboard', "2023-03-23", third);
+        localStorage.setItem('ns-todo-projects', JSON.stringify(projectList));
+        controller.loadProjects('ns-todo-projects');
     }
-    // load projects, if any. 
-    controller.saveProjects();
-    // controller.loadProjects();
+    controller.saveProjects('ns-todo-projects');
+    controller.loadProjects('ns-todo-projects');
     const mainDiv = document.getElementById("content");
     mainDiv.innerHTML = "";
     createSidebarComponent(mainDiv);

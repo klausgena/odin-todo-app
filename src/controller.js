@@ -145,10 +145,32 @@ export function getProjectCount() {
     return DB.getProjectCount();
 }
 
-export function saveProjects() {
-    DB.saveProjects();
+export function saveProjects(data) {
+    // get array with todo lists and project names
+    const allTodos = getAllTodos();
+    const storageArray = [];
+    allTodos.forEach((project) => {
+        const newProject = { 'what': project[0], 'todos': [] };
+        // process todos
+        project[1].forEach((todo) => {
+            const myTodo = { 'what': todo.what, 'when': todo.when, 'urgent': todo.urgent, 'done': todo.done };
+            newProject.todos.push(myTodo);
+        })
+        storageArray.push(newProject);
+    })
+    localStorage.setItem(data, JSON.stringify(storageArray));
 }
 
-export function loadProjects() {
-    DB.loadProjects();
+export function loadProjects(data) {
+    DB.deleteProjects();
+    const projectList = JSON.parse(localStorage.getItem(data));
+    projectList.forEach((project) => {
+        // initialize every project
+        const newProject = projectCreate(project.what);
+        project.todos.forEach((todo) => {
+            // initialize every todo
+            // todo: urgency etc.
+            todoCreate(todo.what, Number(todo.when), newProject); // DEBUG
+        })
+    })
 }

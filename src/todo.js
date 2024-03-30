@@ -10,7 +10,7 @@ class Todo {
 
     constructor(what, when, project = "Default", isUrgent = 'No', isFinished = 'No') {
         this.#what = what;
-        this.#when = Date.parse(when);
+        this.#when = when;
         this.#project = project;
         this.#isUrgent = isUrgent;
         this.#isFinished = isFinished;
