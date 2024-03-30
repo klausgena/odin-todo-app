@@ -277,6 +277,7 @@ export function redrawScreen(projectIndex, date) {
         localStorage.setItem('ns-todo-projects', JSON.stringify(projectList));
         controller.loadProjects('ns-todo-projects');
     }
+    // checken of er projects zijn of of storage niet leeg is?
     controller.saveProjects('ns-todo-projects');
     controller.loadProjects('ns-todo-projects');
     const mainDiv = document.getElementById("content");
