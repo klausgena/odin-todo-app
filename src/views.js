@@ -262,8 +262,7 @@ export function addEventsToView(node) {
     container.addEventListener('mouseover', events.trashIconOnMouseOver);
     container.addEventListener('click', events.markDoneTodoEvent);
     container.addEventListener('click', events.deleteTodoEvent);
-    // container.addEventListener('click', events.deleteProjectEvent);
-    // return container;
+    container.addEventListener('click', events.deleteProjectEvent);
 }
 
 export function redrawScreen(projectIndex, date) {

@@ -95,7 +95,7 @@ export function addProjectEvent(event) {
 export function deleteTodoEvent(event) {
     // delete a todo from the GUI
     const target = event.target;
-    if (target.className == "iconoir-trash") {
+    if (target.className == "iconoir-trash" && target.parentNode.className == "todo-delete") {
         // style hover
         const projectIndex = target.dataset.projectIndex;
         const todoIndex = target.dataset.todoIndex;
@@ -106,10 +106,10 @@ export function deleteTodoEvent(event) {
 
 export function deleteProjectEvent(event) {
     // delete a project from the GUI
-    // TODO ASK YES OR NO SURE?? DELETE make function
+    // TODO ASK YES OR NO SURE?
     const target = event.target;
-    if (target.className == "project-delete") {
-        const index = target.dataset.projectIndex;
+    if (target.className == "iconoir-trash") {
+        const index = target.parentNode.parentNode.dataset.projectIndex; // h3
         const project = controller.getProjectByNumber(index);
         controller.projectDelete(project);
         views.redrawScreen();
@@ -125,14 +125,6 @@ export function markDoneTodoEvent(event) {
         controller.projectTodoMarkDone(todoIndex, projectIndex);
         views.redrawScreen(projectIndex);
     }
-}
-
-export function editTodoElementEvent() {
-
-}
-
-export function toggleTreeEvent() {
-
 }
 
 export function trashIconOnMouseOver(event) {
