@@ -227,9 +227,10 @@ export function todoView(todo, todoIndex, projectIndex) {
         checkBox.setAttribute("data-project-index", projectIndex);
     };
     checkBox.checked = checked;
+    trashIcon.setAttribute("data-todo-index", todoIndex);
+    trashIcon.setAttribute("data-project-index", projectIndex);
     uiSpan.appendChild(trashIcon);
     uiSpan.setAttribute("class", "todo-delete");
-    uiSpan.setAttribute("data-todo-index", todoIndex);
     contentSpan.setAttribute("class", "todo-description");
     contentSpan.textContent = todo.what;
     dateSpan.setAttribute("class", "date-span");
@@ -260,7 +261,7 @@ export function addEventsToView(node) {
     container.addEventListener('click', events.showTodosByDateEvent);
     container.addEventListener('mouseover', events.trashIconOnMouseOver);
     container.addEventListener('click', events.markDoneTodoEvent);
-    // container.addEventListener('click', events.deleteTodoEvent);
+    container.addEventListener('click', events.deleteTodoEvent);
     // container.addEventListener('click', events.deleteProjectEvent);
     // return container;
 }

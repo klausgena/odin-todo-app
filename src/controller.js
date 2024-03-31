@@ -12,10 +12,11 @@ export function todoIsDone(todo) {
     return todo;
 }
 
-export function todoDelete(project, todoIndex) {
-    project.delete(todoIndex);
-    controller.saveProjects('ns-todo-projects');
-    return project;
+export function todoDelete(projectIndex, todoIndex) {
+    const myProject = getProjectByNumber(projectIndex);
+    myProject.delete(todoIndex);
+    saveProjects('ns-todo-projects');
+    return myProject;
 }
 
 export function todoCreate(what, when, project) {
@@ -57,7 +58,6 @@ export function countTodosForPeriod(date) {
     const todos = getTodosForPeriod(date);
     let count = 0;
     todos.forEach((project) => {
-        console.log(project);
         count = count + project.length;
     })
     console.log(count);

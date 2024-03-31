@@ -95,12 +95,12 @@ export function addProjectEvent(event) {
 export function deleteTodoEvent(event) {
     // delete a todo from the GUI
     const target = event.target;
-    if (target.className == "todo-delete") {
-        // get the project
-        const project = getProject(target);
-        const index = target.dataset.todoIndex;
-        controller.todoDelete(project, index);
-        views.redrawScreen();
+    if (target.className == "iconoir-trash") {
+        // style hover
+        const projectIndex = target.dataset.projectIndex;
+        const todoIndex = target.dataset.todoIndex;
+        controller.todoDelete(projectIndex, todoIndex);
+        views.redrawScreen(projectIndex);
     }
 }
 
