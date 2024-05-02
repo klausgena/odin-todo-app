@@ -140,5 +140,5 @@ export function trashIconOnMouseOver(event) {
                 target.textContent = number;
             }, 150)
         });
-    };
+    }
 }
