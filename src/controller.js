@@ -1,28 +1,28 @@
 // All the actions users can undertake
-import { isToday, isPast, isFuture } from 'date-fns';
-import { Todo } from './todo';
-import { Project } from './project';
-import { DB } from './db';
+import { isToday, isPast, isFuture } from "date-fns";
+import { Todo } from "./todo";
+import { Project } from "./project";
+import { default as DB } from "./db";
 
 // Todo actions
 // TODO Make every function return something
 
 export function todoIsDone(todo) {
-  todo.done = 'Yes';
+  todo.done = "Yes";
   return todo;
 }
 
 export function todoDelete(projectIndex, todoIndex) {
   const myProject = getProjectByNumber(projectIndex);
   myProject.delete(todoIndex);
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
   return myProject;
 }
 
 export function todoCreate(what, when, project) {
   const todo = new Todo(what, when);
   project.add(todo);
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
   return project;
 }
 
@@ -31,7 +31,7 @@ export function todoEdit(todo, what, when, urgent) {
   todo.what = what;
   todo.when = when;
   todo.urgent = urgent;
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
   return todo;
 }
 
@@ -39,7 +39,7 @@ export function projectTodoMarkDone(todoIndex, projectIndex) {
   const project = getProjectByNumber(projectIndex);
   const todo = project.todo(todoIndex);
   todoIsDone(todo);
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
   console.log(`Todo ${todo.what} is marked as done.`);
 }
 
@@ -67,19 +67,19 @@ export function getTodosForPeriod(date) {
   // return a list with all todos for today, future, past
   // TODO past also includes today (seconds ago)
   const dateCheck = function (when) {
-    if (date === 'today') {
+    if (date === "today") {
       if (isToday(when)) {
         return true;
       }
-    } else if (date === 'future') {
+    } else if (date === "future") {
       if (isFuture(when)) {
         return true;
       }
-    } else if (date === 'past') {
-      if (isPast(when) && !(isToday(when))) {
+    } else if (date === "past") {
+      if (isPast(when) && !isToday(when)) {
         return true;
       }
-    } else throw console.error('No or wrong date inserted');
+    } else throw console.error("No or wrong date inserted");
   };
   const allTodos = getAllTodos();
   const todosForPeriod = [];
@@ -105,9 +105,7 @@ export function getAllTodos() {
   return allTodos;
 }
 
-export function listTodosByDate() {
-
-}
+export function listTodosByDate() {}
 
 export function listProjects() {
   return DB.listProjects();
@@ -118,24 +116,24 @@ export function listProjects() {
 export function projectCreate(name) {
   const project = new Project(name);
   DB.addProject(project);
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
   return project;
 }
 
 export function projectDelete(project) {
   DB.deleteProject(project);
   project = null;
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
 }
 
 export function projectEdit(project, name) {
   project.what = name;
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
 }
 
 export function projectAddTodo(project, todo) {
   project.add(todo);
-  saveProjects('ns-todo-projects');
+  saveProjects("ns-todo-projects");
   return project;
 }
 
@@ -156,7 +154,10 @@ export function saveProjects(data) {
     // process todos
     project[1].forEach((todo) => {
       const myTodo = {
-        what: todo.what, when: todo.when, urgent: todo.urgent, done: todo.done,
+        what: todo.what,
+        when: todo.when,
+        urgent: todo.urgent,
+        done: todo.done,
       };
       newProject.todos.push(myTodo);
     });
