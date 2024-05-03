@@ -5,7 +5,7 @@ class Project {
 
   constructor(what) {
     this.#what = what;
-    // error if such a project already exists
+    // TODO error if such a project already exists
   }
 
   add(todo) {

@@ -1,7 +1,7 @@
 // All the actions users can undertake
 import { isToday, isPast, isFuture } from 'date-fns';
 import Todo from './todo';
-import { Project } from './project';
+import Project from './project';
 import { default as DB } from './db';
 
 // Todo actions
