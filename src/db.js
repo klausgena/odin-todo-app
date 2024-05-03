@@ -5,46 +5,44 @@ const projects = [];
 class DB {
   constructor() {
     if (instance) {
-      throw new Error("New instance cannot be created!");
+      throw new Error('New instance cannot be created!');
     }
+    this.projects = projects;
     instance = this;
   }
 
   addProject(project) {
-    projects.push(project);
-    console.log(`Project ${project.what} successfully added to DB!`);
+    this.projects.push(project);
   }
 
   deleteProject(project) {
-    let index = projects.indexOf(project);
+    const index = this.projects.indexOf(project);
     if (index !== -1) {
-      projects.splice(index, 1);
-      console.log(`Project ${project.what} successfully removed from DB!`);
+      this.projects.splice(index, 1);
     }
   }
 
   listProjects() {
-    return projects;
+    return this.projects;
   }
 
   existsProject(name) {
-    if (projects.find((project) => project.what === name)) {
+    if (this.projects.find((project) => project.what === name)) {
       return true;
     }
     return false;
   }
 
   getProjectByNumber(number) {
-    return projects[number];
+    return this.projects[number];
   }
 
   getProjectCount() {
-    return projects.length;
+    return this.projects.length;
   }
 
   deleteProjects() {
-    projects.splice(0, projects.length);
-    console.log("Flushed all projects");
+    this.projects.splice(0, projects.length);
   }
 }
 const DBInstance = Object.freeze(new DB());

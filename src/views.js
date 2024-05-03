@@ -159,7 +159,6 @@ export function projectsView() {
     const li = document.createElement('li');
     const h3 = document.createElement('h3');
     const leftSpan = document.createElement('span');
-    const plusIcon = addIcon('plus-circle');
     const projectWhat = document.createTextNode(project.what);
     leftSpan.setAttribute('data-project-index', index);
     leftSpan.appendChild(projectWhat);
@@ -175,36 +174,6 @@ export function projectsView() {
   });
   return ul;
 }
-
-export function projectTodosView(index) {
-  // returns a list of all todos for a certain project
-  const myProject = controller.getProjectByNumber(index);
-  const todos = controller.listTodosForProject(index);
-  const addButton = document.createElement('button');
-  const addTodoDialog = addTodoModal(false, index);
-  const h2 = document.createElement('h2');
-  const folderIcon = addIcon('folder');
-  const projectWhat = document.createTextNode(myProject.what);
-  h2.appendChild(folderIcon);
-  h2.appendChild(projectWhat);
-  h2.setAttribute('data-project-index', index);
-  const ul = document.createElement('ul');
-  ul.appendChild(h2);
-  if (todos.length > 0) {
-    todos.forEach((todo, myIndex) => {
-      const ulTodo = todoView(todo, myIndex, index);
-      ul.appendChild(ulTodo);
-    });
-  } else {
-    // TODO no todos for this project, add somewhere?
-  }
-  addButton.setAttribute('class', 'todo-add');
-  addButton.textContent = '+ ADD TODO';
-  ul.appendChild(addButton);
-  ul.appendChild(addTodoDialog);
-  return ul;
-}
-
 export function todoView(todo, todoIndex, projectIndex) {
   // returns a todo with all the details
   const li = document.createElement('li');
@@ -245,6 +214,35 @@ export function todoView(todo, todoIndex, projectIndex) {
   li.appendChild(dateSpan);
 
   return li;
+}
+
+export function projectTodosView(index) {
+  // returns a list of all todos for a certain project
+  const myProject = controller.getProjectByNumber(index);
+  const todos = controller.listTodosForProject(index);
+  const addButton = document.createElement('button');
+  const addTodoDialog = addTodoModal(false, index);
+  const h2 = document.createElement('h2');
+  const folderIcon = addIcon('folder');
+  const projectWhat = document.createTextNode(myProject.what);
+  h2.appendChild(folderIcon);
+  h2.appendChild(projectWhat);
+  h2.setAttribute('data-project-index', index);
+  const ul = document.createElement('ul');
+  ul.appendChild(h2);
+  if (todos.length > 0) {
+    todos.forEach((todo, myIndex) => {
+      const ulTodo = todoView(todo, myIndex, index);
+      ul.appendChild(ulTodo);
+    });
+  } else {
+    // TODO no todos for this project, add somewhere?
+  }
+  addButton.setAttribute('class', 'todo-add');
+  addButton.textContent = '+ ADD TODO';
+  ul.appendChild(addButton);
+  ul.appendChild(addTodoDialog);
+  return ul;
 }
 
 export function addEventsToView(node) {
@@ -367,7 +365,7 @@ export function redrawScreen(projectIndex, date) {
   const mainDiv = document.getElementById('content');
   mainDiv.innerHTML = '';
   createSidebarComponent(mainDiv);
-  if (projectIndex == undefined && date == undefined) {
+  if (projectIndex === undefined && date === undefined) {
     createMainContent(mainDiv, 0);
   } else if (projectIndex) {
     createMainContent(mainDiv, projectIndex);

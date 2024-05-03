@@ -22,3 +22,6 @@ Odin Project TODO App
   - [x] flaticon integration
 - no double projects with same name
 - add keyboard shortcut events
+
+- give each todo unique ID
+- give each todo project (inside instance)
