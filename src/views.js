@@ -174,6 +174,7 @@ export function projectsView() {
   });
   return ul;
 }
+
 export function todoView(todo, todoIndex, projectIndex) {
   // returns a todo with all the details
   const li = document.createElement('li');
@@ -257,6 +258,93 @@ export function addEventsToView(node) {
   container.addEventListener('click', events.deleteProjectEvent);
 }
 
+function createMainContent(containerDiv, projectIndex, date) {
+  // Creates the main content div with the todos of the selected project
+  // or for the selected time period
+  // default view = last project tasks? Today's tasks??
+  const mainDiv = document.createElement('div');
+  let tasksUl = '';
+  if (date) {
+    tasksUl = dateView(date);
+  } else {
+    tasksUl = projectTodosView(projectIndex);
+  }
+
+  // todo add project title in projecttodosviw function
+  mainDiv.setAttribute('id', 'main-tasks-div');
+  mainDiv.appendChild(tasksUl);
+
+  containerDiv.appendChild(mainDiv);
+}
+
+function createSidebarComponent(containerDiv) {
+  // Creates the sidebar with project list, add task input, today, future
+  const headerH1 = document.createElement('h1');
+  const sidebarDiv = document.createElement('div');
+  const addTaskDiv = document.createElement('div');
+  const projectListDiv = document.createElement('div');
+  const todayDiv = document.createElement('div');
+  const futureDiv = document.createElement('div');
+  const pastDiv = document.createElement('div');
+  const addTaskP = document.createElement('p');
+  const projectListUl = projectsView();
+  const projectsH2 = document.createElement('h2');
+  const todayH2 = document.createElement('h2');
+  const futureH2 = document.createElement('h2');
+  const pastH2 = document.createElement('h2');
+  const addTodoDialog = addTodoModal(true);
+  const addProjectDialog = addProjectModal();
+  const addTaskPContent = document.createTextNode('Add a Task');
+  const plusIcon = addIcon('plus-circle');
+  const plusIcon2 = addIcon('plus-circle');
+
+  addTaskDiv.setAttribute('id', 'add-task');
+  addTaskP.setAttribute('class', 'add-task');
+  sidebarDiv.setAttribute('id', 'sidebar');
+  pastDiv.setAttribute('id', 'overdue-tasks');
+  projectListDiv.setAttribute('id', 'project-list');
+  todayDiv.setAttribute('id', 'tasks-for-today');
+  futureDiv.setAttribute('id', 'future-tasks');
+
+  addTaskP.appendChild(addTaskPContent);
+  addTaskP.appendChild(plusIcon2);
+  addTaskDiv.appendChild(addTaskP);
+  addTaskDiv.appendChild(addTodoDialog);
+  todayH2.textContent = "Today's Tasks";
+  todayH2.setAttribute('class', 'date-view-today');
+  todayH2.appendChild(
+    createNumberSpan(controller.countTodosForPeriod('today')),
+  );
+  futureH2.textContent = 'Tasks For Later';
+  futureH2.setAttribute('class', 'date-view-future');
+  futureH2.appendChild(
+    createNumberSpan(controller.countTodosForPeriod('future')),
+  );
+  pastH2.textContent = 'Overdue Tasks';
+  pastH2.setAttribute('class', 'date-view-past');
+  pastH2.appendChild(createNumberSpan(controller.countTodosForPeriod('past')));
+
+  projectsH2.innerHTML = 'Projects';
+  projectsH2.setAttribute('id', 'projects-h2');
+  projectsH2.appendChild(plusIcon);
+  todayDiv.appendChild(todayH2);
+  futureDiv.appendChild(futureH2);
+  pastDiv.appendChild(pastH2);
+  projectListDiv.appendChild(projectsH2);
+  projectListDiv.appendChild(projectListUl);
+  headerH1.textContent = 'My TODO list';
+
+  sidebarDiv.appendChild(headerH1);
+  sidebarDiv.appendChild(addTaskDiv);
+  sidebarDiv.appendChild(pastDiv);
+  sidebarDiv.appendChild(todayDiv);
+  sidebarDiv.appendChild(futureDiv);
+  sidebarDiv.appendChild(projectListDiv);
+  sidebarDiv.appendChild(addProjectDialog);
+
+  containerDiv.appendChild(sidebarDiv);
+}
+
 export function redrawScreen(projectIndex, date) {
   // save projects or make new
   if (localStorage.getItem('ns-todo-projects') == null) {
@@ -269,96 +357,6 @@ export function redrawScreen(projectIndex, date) {
     localStorage.setItem('ns-todo-projects', JSON.stringify(projectList));
     controller.loadProjects('ns-todo-projects');
   }
-
-  function createMainContent(containerDiv, projectIndex, date) {
-    // Creates the main content div with the todos of the selected project
-    // or for the selected time period
-    // default view = last project tasks? Today's tasks??
-    const mainDiv = document.createElement('div');
-    let tasksUl = '';
-    if (date) {
-      tasksUl = dateView(date);
-    } else {
-      tasksUl = projectTodosView(projectIndex);
-    }
-
-    // todo add project title in projecttodosviw function
-    mainDiv.setAttribute('id', 'main-tasks-div');
-    mainDiv.appendChild(tasksUl);
-
-    containerDiv.appendChild(mainDiv);
-  }
-
-  function createSidebarComponent(containerDiv) {
-    // Creates the sidebar with project list, add task input, today, future
-    const headerH1 = document.createElement('h1');
-    const sidebarDiv = document.createElement('div');
-    const addTaskDiv = document.createElement('div');
-    const projectListDiv = document.createElement('div');
-    const todayDiv = document.createElement('div');
-    const futureDiv = document.createElement('div');
-    const pastDiv = document.createElement('div');
-    const addTaskP = document.createElement('p');
-    const projectListUl = projectsView();
-    const projectsH2 = document.createElement('h2');
-    const todayH2 = document.createElement('h2');
-    const futureH2 = document.createElement('h2');
-    const pastH2 = document.createElement('h2');
-    const addTodoDialog = addTodoModal(true);
-    const addProjectDialog = addProjectModal();
-    const addTaskPContent = document.createTextNode('Add a Task');
-    const plusIcon = addIcon('plus-circle');
-    const plusIcon2 = addIcon('plus-circle');
-
-    addTaskDiv.setAttribute('id', 'add-task');
-    addTaskP.setAttribute('class', 'add-task');
-    sidebarDiv.setAttribute('id', 'sidebar');
-    pastDiv.setAttribute('id', 'overdue-tasks');
-    projectListDiv.setAttribute('id', 'project-list');
-    todayDiv.setAttribute('id', 'tasks-for-today');
-    futureDiv.setAttribute('id', 'future-tasks');
-
-    addTaskP.appendChild(addTaskPContent);
-    addTaskP.appendChild(plusIcon2);
-    addTaskDiv.appendChild(addTaskP);
-    addTaskDiv.appendChild(addTodoDialog);
-    todayH2.textContent = "Today's Tasks";
-    todayH2.setAttribute('class', 'date-view-today');
-    todayH2.appendChild(
-      createNumberSpan(controller.countTodosForPeriod('today')),
-    );
-    futureH2.textContent = 'Tasks For Later';
-    futureH2.setAttribute('class', 'date-view-future');
-    futureH2.appendChild(
-      createNumberSpan(controller.countTodosForPeriod('future')),
-    );
-    pastH2.textContent = 'Overdue Tasks';
-    pastH2.setAttribute('class', 'date-view-past');
-    pastH2.appendChild(
-      createNumberSpan(controller.countTodosForPeriod('past')),
-    );
-
-    projectsH2.innerHTML = 'Projects';
-    projectsH2.setAttribute('id', 'projects-h2');
-    projectsH2.appendChild(plusIcon);
-    todayDiv.appendChild(todayH2);
-    futureDiv.appendChild(futureH2);
-    pastDiv.appendChild(pastH2);
-    projectListDiv.appendChild(projectsH2);
-    projectListDiv.appendChild(projectListUl);
-    headerH1.textContent = 'My TODO list';
-
-    sidebarDiv.appendChild(headerH1);
-    sidebarDiv.appendChild(addTaskDiv);
-    sidebarDiv.appendChild(pastDiv);
-    sidebarDiv.appendChild(todayDiv);
-    sidebarDiv.appendChild(futureDiv);
-    sidebarDiv.appendChild(projectListDiv);
-    sidebarDiv.appendChild(addProjectDialog);
-
-    containerDiv.appendChild(sidebarDiv);
-  }
-
   // checken of er projects zijn of of storage niet leeg is?
   // een flag voor changes????
   controller.loadProjects('ns-todo-projects');

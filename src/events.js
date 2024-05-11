@@ -1,4 +1,3 @@
-import * as views from './views';
 import * as controller from './controller';
 
 // EVENT HANDLERS
@@ -19,12 +18,12 @@ function showTodoModal(target) {
       } else {
         controller.todoCreate(what, when, project);
       }
-      views.redrawScreen(projectIndex);
+      controller.redrawScreen(projectIndex);
     }
   });
 }
 
-function showProjectModal(target) {}
+// TODO function showProjectModal(target) {}
 
 export function addTodoEvent(event) {
   const { target } = event;
@@ -50,7 +49,7 @@ export function addTodoEvent(event) {
           //   TODO Add field validation
         } else {
           controller.todoCreate(what, when, project);
-          views.redrawScreen(projectIndex);
+          controller.redrawScreen(projectIndex);
         }
       }
     });
@@ -62,18 +61,18 @@ export function addTodoEvent(event) {
 export function showProjectTodosEvent(event) {
   const { target } = event;
   if (target.className === 'project-list-h3') {
-    views.redrawScreen(target.dataset.projectIndex);
+    controller.redrawScreen(target.dataset.projectIndex);
   }
 }
 
 export function showTodosByDateEvent(event) {
   const { target } = event;
   if (target.className === 'date-view-today') {
-    views.redrawScreen(0, 'today');
+    controller.redrawScreen(0, 'today');
   } else if (target.className === 'date-view-future') {
-    views.redrawScreen(0, 'future');
+    controller.redrawScreen(0, 'future');
   } else if (target.className === 'date-view-past') {
-    views.redrawScreen(0, 'past');
+    controller.redrawScreen(0, 'past');
   }
 }
 
@@ -93,7 +92,7 @@ export function addProjectEvent(event) {
         } else {
           controller.projectCreate(what);
           const projectIndex = controller.getProjectCount();
-          views.redrawScreen(projectIndex - 1);
+          controller.redrawScreen(projectIndex - 1);
         }
       }
     });
@@ -111,7 +110,7 @@ export function deleteTodoEvent(event) {
     const { projectIndex } = target.dataset;
     const { todoIndex } = target.dataset;
     controller.todoDelete(projectIndex, todoIndex);
-    views.redrawScreen(projectIndex);
+    controller.redrawScreen(projectIndex);
   }
 }
 
@@ -123,7 +122,7 @@ export function deleteProjectEvent(event) {
     const index = target.parentNode.parentNode.dataset.projectIndex; // h3
     const project = controller.getProjectByNumber(index);
     controller.projectDelete(project);
-    views.redrawScreen();
+    controller.redrawScreen();
   }
 }
 
@@ -134,15 +133,24 @@ export function markDoneTodoEvent(event) {
     const { projectIndex } = target.dataset;
     const { todoIndex } = target.dataset;
     controller.projectTodoMarkDone(todoIndex, projectIndex);
-    views.redrawScreen(projectIndex);
+    controller.redrawScreen(projectIndex);
   }
+}
+
+// TODO rewrite as css animation
+
+export function addIcon(iconName) {
+  const i = document.createElement('i');
+  const iconClass = `iconoir-${iconName}`;
+  i.setAttribute('class', iconClass);
+  return i;
 }
 
 export function trashIconOnMouseOver(event) {
   const { target } = event;
   const parent = target.parentNode.nodeName;
   if (target.className === 'number' && parent === 'H3') {
-    const trashIcon = views.addIcon('trash');
+    const trashIcon = addIcon('trash');
     const number = target.textContent;
     target.textContent = '';
     target.appendChild(trashIcon);
