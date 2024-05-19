@@ -3,8 +3,52 @@ import { isToday, isPast, isFuture } from 'date-fns';
 import Todo from './todo';
 import Project from './project';
 import DB from './db';
+import * as views from './views';
 
 // Operations on all Todos
+// TODO every function talks to model, but also to DOM
+
+function addEventsToView(node) {
+  const container = node;
+  container.addEventListener('click', events.addTodoEvent);
+  container.addEventListener('click', events.addProjectEvent);
+  container.addEventListener('click', events.showProjectTodosEvent);
+  container.addEventListener('click', events.showTodosByDateEvent);
+  container.addEventListener('mouseover', events.trashIconOnMouseOver);
+  container.addEventListener('click', events.markDoneTodoEvent);
+  container.addEventListener('click', events.deleteTodoEvent);
+  container.addEventListener('click', events.deleteProjectEvent);
+}
+
+function redrawScreen(projectIndex, date) {
+  // save projects for make new
+  if (localStorage.getItem('ns-todo-projects') == null) {
+    const projectList = [];
+    const defaultProject = { what: 'Default', todos: [] };
+    const defaultTodo = { what: 'Delete this todo', when: Date.now() };
+    defaultProject.todos.push(defaultTodo);
+    projectList.push(defaultProject);
+
+    localStorage.setItem('ns-todo-projects', JSON.stringify(projectList));
+    loadProjects('ns-todo-projects');
+  }
+  // checken of er projects zijn of of storage niet leeg is?
+  // een flag voor changes????
+  loadProjects('ns-todo-projects');
+  const mainDiv = document.getElementById('content');
+  mainDiv.innerHTML = '';
+  views.createSidebarComponent(mainDiv);
+  if (projectIndex === undefined && date === undefined) {
+    views.createMainContent(mainDiv, 0);
+  } else if (projectIndex) {
+    views.createMainContent(mainDiv, projectIndex);
+  } else if (date) {
+    views.createMainContent(mainDiv, 0, date);
+  } else {
+    views.createMainContent(mainDiv, 0);
+  }
+  addEventsToView(mainDiv);
+}
 
 export function listTodosForProject(number) {
   const myProject = DB.getProjectByNumber(number);
@@ -28,6 +72,7 @@ export function getAllTodos() {
     const todos = [project.what, listTodosForProject(index)];
     allTodos.push(todos);
   });
+  // TODO REFACTOR VIEW Function: show all todos
   return allTodos;
 }
 
@@ -143,7 +188,8 @@ export function todoCreate(what, when, project) {
   const todo = new Todo(what, when);
   project.add(todo);
   saveProjects('ns-todo-projects');
-  return project;
+  redrawScreen(projectIndex);
+  // return project;
 }
 
 export function todoEdit(todo, what, when, urgent) {

@@ -18,7 +18,6 @@ function showTodoModal(target) {
       } else {
         controller.todoCreate(what, when, project);
       }
-      controller.redrawScreen(projectIndex);
     }
   });
 }

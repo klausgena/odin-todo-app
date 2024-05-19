@@ -25,3 +25,10 @@ Odin Project TODO App
 
 - give each todo unique ID
 - give each todo project (inside instance)
+
+## LESSONS LEARNED
+
+- `controller` file controls `views` and `model` updates, not only model. That
+  makes sense now, as I was first only using the controller to mimick functions
+  that already existed in the `model`.
+- put all static `html` in `index.html`, in order to keep the `view` functions easier to read.

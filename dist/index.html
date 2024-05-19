@@ -1,16 +1,80 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <title>Todo</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
-</head>
-
-<body>
-  <div id="content"></div>
-
-  <script src="main.js"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <title>Todo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
+    />
+  </head>
+  <body>
+    <div id="content">
+      <div id="sidebar">
+        <h1>My TODO list</h1>
+        <div id="add-task">
+          <p class="add-task">Add a Task<i class="iconoir-plus-circle"></i></p>
+          <dialog id="add-main-todo-dialog">
+            <form method="dialog">
+              <label>Title</label>
+              <input type="text" /><label>Due Date</label>
+              <input type="date" /><label>Assign To Project</label>
+              <select>
+                <option value="0">Default</option>
+              </select>
+              <button id="cancel-button">Cancel</button>
+              <button class="add-todo-button" type="button">Submit</button>
+            </form>
+          </dialog>
+        </div>
+        <div id="overdue-tasks">
+          <h2 class="date-view-past">
+            Overdue Tasks<span class="number">0</span>
+          </h2>
+        </div>
+        <div id="tasks-for-today">
+          <h2 class="date-view-today">
+            Today's Tasks<span class="number">0</span>
+          </h2>
+        </div>
+        <div id="future-tasks">
+          <h2 class="date-view-future">
+            Tasks For Later<span class="number">0</span>
+          </h2>
+        </div>
+        <div id="project-list">
+          <h2 id="projects-h2">Projects<i class="iconoir-plus-circle"></i></h2>
+          <ul>
+            <li class="project-list-li">
+              <h3 class="project-list-h3"></h3>
+            </li>
+          </ul>
+        </div>
+        <dialog id="add-project-dialog">
+          <form method="dialog">
+            <label>What's the project about?</label>
+            <input type="text" /><button>Cancel</button>
+            <button id="submit-new-project" type="button">Submit</button>
+          </form>
+        </dialog>
+      </div>
+      <div id="main-tasks-div">
+        <ul>
+          <h2><i class="iconoir-folder"></i>{Project Name}</h2>
+          <button class="todo-add">+ ADD TODO</button>
+          <dialog id="add-todo-dialog">
+            <form method="dialog">
+              <label>Title</label>
+              <input type="text" />
+              <label>Due Date</label>
+              <input type="date" />
+              <button id="cancel-button">Cancel</button>
+              <button class="add-todo-button" type="button">Submit</button>
+            </form>
+          </dialog>
+        </ul>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
 </html>
