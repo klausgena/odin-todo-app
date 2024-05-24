@@ -4,7 +4,17 @@
 // import Project from './project';
 // import DB from './db';
 // import * as views from './views';
-
+/**
+ * On click, get the modal data, create a todo, save the todo
+ * in the database and redraw the screen.
+ */
+export function handleAddTaskEvent() {}
+//   const todo = new Todo(what, when);
+//   project.add(todo);
+//   saveProjects('ns-todo-projects');
+//   redrawScreen(projectIndex);
+//   // return project;
+/
 // // Operations on all Todos
 // // TODO every function talks to model, but also to DOM
 

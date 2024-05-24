@@ -1,5 +1,14 @@
-// import * as controller from './controller';
+// Add events:
+//  - Sidebar: add task, add project, show projects by date
+//  - Main: add task
+import * as controller from './controller';
 
+const addTaskDiv = document.getElementById("add-task");
+const mainTaskModal = document.getElementById("add-main-todo-dialog");
+const mainSubmitButton = document. getElementById("modal-submit-button");
+
+addTaskDiv.addEventListener('click', mainTaskModal.showModal());
+mainSubmitButton.addEventListener('click')
 // // EVENT HANDLERS
 
 // function showTodoModal(target) {
