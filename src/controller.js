@@ -14,7 +14,7 @@ export function handleAddTaskEvent() {}
 //   saveProjects('ns-todo-projects');
 //   redrawScreen(projectIndex);
 //   // return project;
-/
+//
 // // Operations on all Todos
 // // TODO every function talks to model, but also to DOM
 

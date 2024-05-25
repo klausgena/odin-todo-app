@@ -1,5 +1,5 @@
-// import * as controller from './controller';
-
+// import * as controller from './controller'
+import './events';
 // // Create a default project
 // const defaultProject = controller.projectCreate('home');
 // // add second project and third project
