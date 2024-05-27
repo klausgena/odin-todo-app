@@ -1,5 +1,8 @@
-// import * as controller from './controller'
-import './events';
+import * as controller from './controller';
+// import './events';
+
+controller.redrawScreen(0);
+
 // // Create a default project
 // const defaultProject = controller.projectCreate('home');
 // // add second project and third project

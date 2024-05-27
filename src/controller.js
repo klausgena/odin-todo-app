@@ -1,69 +1,173 @@
-// // All the actions users can undertake
-// import { isToday, isPast, isFuture } from 'date-fns';
-// import Todo from './todo';
-// import Project from './project';
-// import DB from './db';
-// import * as views from './views';
+import { isToday, isPast, isFuture } from 'date-fns';
+import Todo from './todo';
+import Project from './project';
+import DB from './db';
+import * as views from './views';
+
+const DB_NAME = 'ns-project-todos';
+
+/**
+ * gets all todos as twodimensional array starting with the
+ * name of each project
+ */
+export function getAllTodos() {
+  const allTodos = [];
+  const projects = DB.listProjects();
+  projects.forEach((project, index) => {
+    const todos = [project.what, listTodosForProject(index)];
+    allTodos.push(todos);
+  });
+  return allTodos;
+}
+
+/**
+ * Returns array with all todos for a certain project
+ */
+function listTodosForProject(number) {
+  const myProject = DB.getProjectByNumber(number);
+  return myProject.which;
+}
+
+/**
+ * Returns a list of all todos for a period (past, today, future)
+ */
+export function listTodosForPeriod(date) {
+  const dateCheck = (when) => {
+    if (date === 'today') {
+      if (isToday(when)) {
+        return true;
+      }
+    } else if (date === 'future') {
+      if (isFuture(when)) {
+        return true;
+      }
+    } else if (date === 'past') {
+      if (isPast(when) && !isToday(when)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  const allTodos = getAllTodos();
+  const todosForPeriod = [];
+  allTodos.forEach((project, index) => {
+    const projectTodos = allTodos[index][1];
+    const periodTodos = projectTodos.filter((todo) => dateCheck(todo.when));
+    todosForPeriod[index] = periodTodos;
+  });
+  return todosForPeriod;
+}
+
+/**
+ * Create a project and save it in the DB
+ */
+function projectCreate(name) {
+  const project = new Project(name);
+  DB.addProject(project);
+  saveProjects(DB_NAME);
+  return project;
+}
+
+function todoCreate(what, when, project) {
+  const todo = new Todo(what, when);
+  project.add(todo);
+  saveProjects(DB_NAME);
+}
+
+/**
+ * Load data from storage or load dummy data
+ */
+function loadProjects(data) {
+  DB.deleteProjects();
+  const projectList = JSON.parse(localStorage.getItem(data));
+  projectList.forEach((project) => {
+    const newProject = projectCreate(project.what);
+    project.todos.forEach((todo) => {
+      todoCreate(todo.what, Number(todo.when), newProject);
+    });
+  });
+}
+
+/**
+ * Save all DB data into local storage
+ */
+function saveProjects(data) {
+  const allTodos = getAllTodos();
+  const storageArray = [];
+  allTodos.forEach((project) => {
+    const newProject = { what: project[0], todos: [] };
+    project[1].forEach((todo) => {
+      const myTodo = {
+        what: todo.what,
+        when: todo.when,
+        urgent: todo.urgent,
+        done: todo.done,
+      };
+      newProject.todos.push(myTodo);
+    });
+    storageArray.push(newProject);
+  });
+  localStorage.setItem(data, JSON.stringify(storageArray));
+}
+
+/**
+ * Redraw the screen on every DB change. Initialize with dummy data if DB empty.
+ *
+ * @param project number or overdue, today, future (for the main todo div)
+ */
+export function redrawScreen(numOrDate) {
+  if (localStorage.getItem(DB_NAME) == null) {
+    const projectList = [];
+    const defaultProject = { what: 'Default', todos: [] };
+    const defaultTodo = { what: 'Delete this todo', when: Date.now() };
+    defaultProject.todos.push(defaultTodo);
+    projectList.push(defaultProject);
+    localStorage.setItem(DB_NAME, JSON.stringify(projectList));
+  }
+  loadProjects(DB_NAME);
+  const projects = DB.listProjects();
+  views.renderProjectList(projects);
+  switch (numOrDate) {
+    case 'overdue':
+      const overdueTodos = listTodosForPeriod('past');
+      views.renderTitle('Overdue');
+      views.renderTodos(overdueTodos);
+      break;
+    case 'today':
+      const todayTodos = listTodosForPeriod('today');
+      views.renderTitle('Today');
+      views.renderTodos(todayTodos);
+      break;
+    case 'future':
+      const futureTodos = listTodosForPeriod('future');
+      views.renderTitle('Future');
+      views.renderTodos(futureTodos);
+      break;
+    default:
+      const projectTodos = listTodosForProject(numOrDate);
+      views.renderTitle('Project Title'); // TODO function get project name
+      views.renderTodos(projectTodos);
+  }
+}
+
 /**
  * On click, get the modal data, create a todo, save the todo
  * in the database and redraw the screen.
  */
-export function handleAddTaskEvent() {}
-//   const todo = new Todo(what, when);
-//   project.add(todo);
-//   saveProjects('ns-todo-projects');
-//   redrawScreen(projectIndex);
-//   // return project;
-//
-// // Operations on all Todos
-// // TODO every function talks to model, but also to DOM
+export function handleAddTaskEvent(what, when, projectID) {
+  const todo = new Todo(what, when);
+  const project = DB.getProjectByNumber(projectID);
+  project.add(todo);
+  saveProjects(DB_NAME);
+  redrawScreen(projectID);
+}
 
-// function addEventsToView(node) {
-//   const container = node;
-//   container.addEventListener('click', events.addTodoEvent);
-//   container.addEventListener('click', events.addProjectEvent);
-//   container.addEventListener('click', events.showProjectTodosEvent);
-//   container.addEventListener('click', events.showTodosByDateEvent);
-//   container.addEventListener('mouseover', events.trashIconOnMouseOver);
-//   container.addEventListener('click', events.markDoneTodoEvent);
-//   container.addEventListener('click', events.deleteTodoEvent);
-//   container.addEventListener('click', events.deleteProjectEvent);
-// }
-
-// function redrawScreen(projectIndex, date) {
-//   // save projects for make new
-//   if (localStorage.getItem('ns-todo-projects') == null) {
-//     const projectList = [];
-//     const defaultProject = { what: 'Default', todos: [] };
-//     const defaultTodo = { what: 'Delete this todo', when: Date.now() };
-//     defaultProject.todos.push(defaultTodo);
-//     projectList.push(defaultProject);
-
-//     localStorage.setItem('ns-todo-projects', JSON.stringify(projectList));
-//     loadProjects('ns-todo-projects');
-//   }
-//   // checken of er projects zijn of of storage niet leeg is?
-//   // een flag voor changes????
-//   loadProjects('ns-todo-projects');
-//   const mainDiv = document.getElementById('content');
-//   mainDiv.innerHTML = '';
-//   views.createSidebarComponent(mainDiv);
-//   if (projectIndex === undefined && date === undefined) {
-//     views.createMainContent(mainDiv, 0);
-//   } else if (projectIndex) {
-//     views.createMainContent(mainDiv, projectIndex);
-//   } else if (date) {
-//     views.createMainContent(mainDiv, 0, date);
-//   } else {
-//     views.createMainContent(mainDiv, 0);
-//   }
-//   addEventsToView(mainDiv);
-// }
-
-// export function listTodosForProject(number) {
-//   const myProject = DB.getProjectByNumber(number);
-//   return myProject.which;
-// }
+export function handleAddProjectEvent(what) {
+  console.log(what);
+}
+export function handleDateViewEvent(date) {
+  console.log(date);
+}
 
 // export function getNumberTodosForProject(projectIndex) {
 //   return listTodosForProject(projectIndex).length;
@@ -72,49 +176,6 @@ export function handleAddTaskEvent() {}
 // export function listProjects() {
 //   return DB.listProjects();
 // }
-
-// export function getAllTodos() {
-//   // gets all todos as twodimensional array starting with the
-//   // name of each project
-//   const allTodos = [];
-//   const projects = listProjects();
-//   projects.forEach((project, index) => {
-//     const todos = [project.what, listTodosForProject(index)];
-//     allTodos.push(todos);
-//   });
-//   // TODO REFACTOR VIEW Function: show all todos
-//   return allTodos;
-// }
-
-// export function getTodosForPeriod(date) {
-//   // return a list with all todos for today, future, past
-//   // TODO: past also includes today (seconds ago)
-//   const dateCheck = (when) => {
-//     if (date === 'today') {
-//       if (isToday(when)) {
-//         return true;
-//       }
-//     } else if (date === 'future') {
-//       if (isFuture(when)) {
-//         return true;
-//       }
-//     } else if (date === 'past') {
-//       if (isPast(when) && !isToday(when)) {
-//         return true;
-//       }
-//     }
-//     return false; // TODO: check if this works
-//   };
-//   const allTodos = getAllTodos();
-//   const todosForPeriod = [];
-//   allTodos.forEach((project, index) => {
-//     const projectTodos = allTodos[index][1];
-//     const periodTodos = projectTodos.filter((todo) => dateCheck(todo.when));
-//     todosForPeriod[index] = periodTodos;
-//   });
-//   return todosForPeriod;
-// }
-
 // export function countTodosForPeriod(date) {
 //   const todos = getTodosForPeriod(date);
 //   let count = 0;
@@ -125,34 +186,6 @@ export function handleAddTaskEvent() {}
 // }
 
 // // Project actions
-
-// export function saveProjects(data) {
-//   // get array with todo lists and project names
-//   const allTodos = getAllTodos();
-//   const storageArray = [];
-//   allTodos.forEach((project) => {
-//     const newProject = { what: project[0], todos: [] };
-//     // process todos
-//     project[1].forEach((todo) => {
-//       const myTodo = {
-//         what: todo.what,
-//         when: todo.when,
-//         urgent: todo.urgent,
-//         done: todo.done,
-//       };
-//       newProject.todos.push(myTodo);
-//     });
-//     storageArray.push(newProject);
-//   });
-//   localStorage.setItem(data, JSON.stringify(storageArray));
-// }
-
-// export function projectCreate(name) {
-//   const project = new Project(name);
-//   DB.addProject(project);
-//   saveProjects('ns-todo-projects');
-//   return project;
-// }
 
 // export function projectDelete(project) {
 //   DB.deleteProject(project);
@@ -194,14 +227,6 @@ export function handleAddTaskEvent() {}
 //   return myProject;
 // }
 
-// export function todoCreate(what, when, project) {
-//   const todo = new Todo(what, when);
-//   project.add(todo);
-//   saveProjects('ns-todo-projects');
-//   redrawScreen(projectIndex);
-//   // return project;
-// }
-
 // export function todoEdit(todo, what, when, urgent) {
 //   // TODO: think of some defaults
 //   const thisTodo = todo;
@@ -217,18 +242,4 @@ export function handleAddTaskEvent() {}
 //   const todo = project.todo(todoIndex);
 //   todo.done = 'Yes';
 //   saveProjects('ns-todo-projects');
-// }
-
-// export function loadProjects(data) {
-//   DB.deleteProjects();
-//   const projectList = JSON.parse(localStorage.getItem(data));
-//   projectList.forEach((project) => {
-//     // initialize every project
-//     const newProject = projectCreate(project.what);
-//     project.todos.forEach((todo) => {
-//       // initialize every todo
-//       // todo: urgency etc.
-//       todoCreate(todo.what, Number(todo.when), newProject); // DEBUG
-//     });
-//   });
 // }

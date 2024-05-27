@@ -1,148 +1,80 @@
-// Add events:
-//  - Sidebar: add task, add project, show projects by date
-//  - Main: add task
-// import * as controller from './controller';
+/**
+ * TODO add form validation
+ */
+
+import * as controller from './controller';
 
 const addTaskDiv = document.getElementById('add-task');
 const mainTaskModal = document.getElementById('add-main-todo-dialog');
 const mainSubmitButton = document.getElementById('modal-submit-button');
+const projectsH2 = document.getElementById('projects-h2');
+const projectModal = document.getElementById('add-project-dialog');
+const projectSubmitButton = document.getElementById('submit-new-project');
+const addTodoButton = document.getElementById('add-todo-button');
+const addTodoDialog = document.getElementById('add-todo-dialog');
+const mainTodoSubmit = document.getElementById('main-todo-submit');
+const overdueDiv = document.getElementById('overdue-tasks');
+const todayDiv = document.getElementById('tasks-for-today');
+const futureDiv = document.getElementById('future-tasks');
+
+/**
+ * Open the modals
+ */
 
 addTaskDiv.addEventListener('click', () => {
   mainTaskModal.showModal();
 });
-mainSubmitButton.addEventListener('click');
-// // EVENT HANDLERS
+projectsH2.addEventListener('click', () => {
+  projectModal.showModal();
+});
+addTodoButton.addEventListener('click', () => {
+  addTodoDialog.showModal();
+});
 
-// function showTodoModal(target) {
-//   const modal = document.getElementById('add-todo-dialog');
-//   modal.showModal();
-//   const { projectIndex } = modal.parentElement.firstChild.dataset;
-//   modal.addEventListener('click', () => {
-//     if (target.className === 'add-todo-button') {
-//       const project = controller.getProjectByNumber(projectIndex);
-//       const what = document.querySelector('#add-todo-dialog form input').value;
-//       const when = Date.parse(
-//         document.querySelector('#add-todo-dialog form input+label+input').value,
-//       );
-//       if (!what || !when) {
-//         // TODO Add form validation
-//       } else {
-//         controller.todoCreate(what, when, project);
-//       }
-//     }
-//   });
-// }
+/**
+ * Handle the modal submit process
+ */
 
-// // TODO function showProjectModal(target) {}
+mainSubmitButton.addEventListener('click', (event) => {
+  event.stopPropagation();
+  /** Close the modal */
+  mainTaskModal.close();
+  /** Get the form data */
+  const todoWhat = document.getElementById('main-todo-what').value;
+  const todoWhen = document.getElementById('main-todo-when').value;
+  const projectID = document.getElementById('main-todo-project').value;
+  /** Send it to the controller */
+  controller.handleAddTaskEvent(todoWhat, todoWhen, projectID);
+});
+projectSubmitButton.addEventListener('click', (event) => {
+  const projectText = document.querySelector(
+    '#add-project-dialog form input',
+  ).value;
+  event.stopPropagation();
+  projectModal.close();
+  controller.handleAddProjectEvent(projectText);
+});
+mainTodoSubmit.addEventListener('click', (event) => {
+  event.stopPropagation();
+  addTodoDialog.close();
+  const todoWhat = document.querySelector('#add-todo-dialog form input').value;
+  const todoWhen = document.querySelector(
+    '#add-todo-dialog form input ~ input',
+  ).value;
+  const projectID = 0; // DEBUG TODO ADD LATER
+  controller.handleAddTaskEvent(todoWhat, todoWhen, projectID);
+});
 
-// export function addTodoEvent(event) {
-//   const { target } = event;
-//   let modal = '';
+/**
+ * Date view event handlers
+ */
 
-//   if (target.className === 'add-task') {
-//     modal = document.getElementById('add-main-todo-dialog');
-//     modal.showModal();
-//     modal.addEventListener('click', () => {
-//       if (event.target.className === 'add-todo-button') {
-//         const projectIndex = document.querySelector(
-//           '#add-main-todo-dialog form select',
-//         ).value;
-//         const project = controller.getProjectByNumber(projectIndex);
-//         const what = document.querySelector(
-//           '#add-main-todo-dialog form input',
-//         ).value;
-//         const when = Date.parse(
-//           document.querySelector('#add-main-todo-dialog form input+label+input')
-//             .value,
-//         );
-//         if (!what || !when) {
-//           //   TODO Add field validation
-//         } else {
-//           controller.todoCreate(what, when, project);
-//           controller.redrawScreen(projectIndex);
-//         }
-//       }
-//     });
-//   } else if (target.className === 'todo-add') {
-//     showTodoModal(target);
-//   }
-// }
-
-// export function showProjectTodosEvent(event) {
-//   const { target } = event;
-//   if (target.className === 'project-list-h3') {
-//     controller.redrawScreen(target.dataset.projectIndex);
-//   }
-// }
-
-// export function showTodosByDateEvent(event) {
-//   const { target } = event;
-//   if (target.className === 'date-view-today') {
-//     controller.redrawScreen(0, 'today');
-//   } else if (target.className === 'date-view-future') {
-//     controller.redrawScreen(0, 'future');
-//   } else if (target.className === 'date-view-past') {
-//     controller.redrawScreen(0, 'past');
-//   }
-// }
-
-// export function addProjectEvent(event) {
-//   // add a project in the GUI
-//   const { target } = event;
-//   if (target.id === 'projects-h2') {
-//     const modal = document.getElementById('add-project-dialog');
-//     modal.showModal();
-//     modal.addEventListener('click', () => {
-//       if (event.target.id === 'submit-new-project') {
-//         const what = document.querySelector(
-//           '#add-project-dialog form input',
-//         ).value;
-//         if (!what) {
-//           // TODO form validation
-//         } else {
-//           controller.projectCreate(what);
-//           const projectIndex = controller.getProjectCount();
-//           controller.redrawScreen(projectIndex - 1);
-//         }
-//       }
-//     });
-//   }
-// }
-
-// export function deleteTodoEvent(event) {
-//   // delete a todo from the GUI
-//   const { target } = event;
-//   if (
-//     target.className === 'iconoir-trash' &&
-//     target.parentNode.className === 'todo-delete'
-//   ) {
-//     // style hover
-//     const { projectIndex } = target.dataset;
-//     const { todoIndex } = target.dataset;
-//     controller.todoDelete(projectIndex, todoIndex);
-//     controller.redrawScreen(projectIndex);
-//   }
-// }
-
-// export function deleteProjectEvent(event) {
-//   // delete a project from the GUI
-//   // TODO ASK YES OR NO SURE?
-//   const { target } = event;
-//   if (target.className === 'iconoir-trash') {
-//     const index = target.parentNode.parentNode.dataset.projectIndex; // h3
-//     const project = controller.getProjectByNumber(index);
-//     controller.projectDelete(project);
-//     controller.redrawScreen();
-//   }
-// }
-
-// export function markDoneTodoEvent(event) {
-//   // mark a todo as done in the GUI
-//   const { target } = event;
-//   if (target.type === 'checkbox') {
-//     const { projectIndex } = target.dataset;
-//     const { todoIndex } = target.dataset;
-//     controller.projectTodoMarkDone(todoIndex, projectIndex);
-//     controller.redrawScreen(projectIndex);
-//   }
-// }
+overdueDiv.addEventListener('click', () => {
+  controller.handleDateViewEvent('overdue');
+});
+todayDiv.addEventListener('click', () => {
+  controller.handleDateViewEvent('today');
+});
+futureDiv.addEventListener('click', () => {
+  controller.handleDateViewEvent('future');
+});

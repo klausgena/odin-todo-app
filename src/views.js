@@ -1,3 +1,45 @@
+/**
+ * Renders the list of projects in the sidebar
+ */
+export function renderProjectList(projects) {
+  const projectUl = document.querySelector('#projects-h2 + ul');
+  projects.forEach((project) => {
+    const projectLi = document.createElement('li');
+    const projectH3 = document.createElement('h3');
+    projectLi.setAttribute('class', 'project-list-li');
+    projectH3.setAttribute('class', 'project-list-h3');
+    projectLi.textContent = project.what;
+    projectLi.appendChild(projectH3);
+    projectUl.appendChild(projectLi);
+  });
+}
+
+/**
+ * Render the title of the main div
+ */
+export function renderTitle(title) {
+  const titleH2 = document.querySelector('#main-tasks-div ul h2');
+  const titleNode = document.createTextNode(title);
+  titleH2.append(titleNode);
+}
+
+/**
+ * Render the todos in the main div
+ */
+export function renderTodos(todos) {
+  const mainUl = document.querySelector('#main-tasks-div ul');
+  todos.forEach((todo) => {
+    const todoLi = document.createElement('li');
+    const todoSpan = document.createElement('span');
+    const dateSpan = document.createElement('span');
+    todoSpan.textContent = todo.what;
+    dateSpan.textContent = todo.when;
+    todoLi.appendChild(todoSpan);
+    todoLi.appendChild(dateSpan);
+    mainUl.appendChild(todoLi);
+  });
+}
+
 // import { formatDistanceToNow, isToday } from 'date-fns';
 
 // // helper functions

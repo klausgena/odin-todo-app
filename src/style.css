@@ -121,7 +121,7 @@ ul {
     align-items: center;
 }
 
-button.todo-add {
+#add-todo-button {
     margin-left: 2rem;
 }
 
