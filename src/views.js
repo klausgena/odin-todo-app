@@ -1,14 +1,18 @@
+import { formatDistanceToNow, isToday } from 'date-fns';
+
 /**
  * Renders the list of projects in the sidebar
  */
 export function renderProjectList(projects) {
   const projectUl = document.querySelector('#projects-h2 + ul');
+  // first empty existing content
+  projectUl.textContent = '';
   projects.forEach((project) => {
     const projectLi = document.createElement('li');
     const projectH3 = document.createElement('h3');
     projectLi.setAttribute('class', 'project-list-li');
     projectH3.setAttribute('class', 'project-list-h3');
-    projectLi.textContent = project.what;
+    projectH3.textContent = project.what;
     projectLi.appendChild(projectH3);
     projectUl.appendChild(projectLi);
   });
@@ -18,29 +22,46 @@ export function renderProjectList(projects) {
  * Render the title of the main div
  */
 export function renderTitle(title) {
+  // first empty existing content
+  document.querySelector('#main-tasks-div ul h2 span').remove();
   const titleH2 = document.querySelector('#main-tasks-div ul h2');
-  const titleNode = document.createTextNode(title);
-  titleH2.append(titleNode);
+  const titleSpan = document.createElement('span');
+  titleSpan.textContent = title;
+  titleH2.append(titleSpan);
 }
 
 /**
  * Render the todos in the main div
  */
+export function simpleDueDate(todoWhen) {
+  // show today, tomorrow, in 7 days, soon, next week, etc.
+  // under the todo description in the main field. Returns a string.
+  if (isToday(todoWhen)) {
+    return 'today';
+  }
+  return formatDistanceToNow(todoWhen, { addSuffix: true });
+}
+
 export function renderTodos(todos) {
   const mainUl = document.querySelector('#main-tasks-div ul');
+  // first empty existing content (avoid duplicates)
+  document.querySelectorAll('#main-tasks-div ul li').forEach((e) => e.remove());
   todos.forEach((todo) => {
     const todoLi = document.createElement('li');
     const todoSpan = document.createElement('span');
     const dateSpan = document.createElement('span');
+    const checkBox = document.createElement('input');
+    checkBox.setAttribute('type', 'checkbox');
+    todoSpan.setAttribute('class', 'todo-description');
+    dateSpan.setAttribute('class', 'date-span');
     todoSpan.textContent = todo.what;
-    dateSpan.textContent = todo.when;
+    dateSpan.textContent = simpleDueDate(todo.when);
+    todoLi.appendChild(checkBox);
     todoLi.appendChild(todoSpan);
     todoLi.appendChild(dateSpan);
     mainUl.appendChild(todoLi);
   });
 }
-
-// import { formatDistanceToNow, isToday } from 'date-fns';
 
 // // helper functions
 
@@ -90,15 +111,6 @@ export function renderTodos(todos) {
 //       });
 //     }
 //   });
-// }
-
-// export function simpleDueDate(todoWhen) {
-//   // show today, tomorrow, in 7 days, soon, next week, etc.
-//   // under the todo description in the main field. Returns a string.
-//   if (isToday(todoWhen)) {
-//     return 'today';
-//   }
-//   return formatDistanceToNow(todoWhen, { addSuffix: true });
 // }
 
 // export function projectsView(projects) {

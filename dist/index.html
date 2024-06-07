@@ -68,8 +68,8 @@
       </div>
       <div id="main-tasks-div">
         <ul>
-          <h2><i class="iconoir-folder"></i>{Project Name}</h2>
-          <button id="add-todo-button"> + ADD TODO</button>
+          <h2><i class="iconoir-folder"></i><span>TITLE</span></h2>
+          <button id="add-todo-button">+ ADD TODO</button>
           <dialog id="add-todo-dialog">
             <form method="dialog">
               <label>Title</label>
@@ -77,7 +77,13 @@
               <label>Due Date</label>
               <input type="date" />
               <button id="cancel-button">Cancel</button>
-              <button class="add-todo-button" id="main-todo-submit" type="button">Submit</button>
+              <button
+                class="add-todo-button"
+                id="main-todo-submit"
+                type="button"
+              >
+                Submit
+              </button>
             </form>
           </dialog>
         </ul>

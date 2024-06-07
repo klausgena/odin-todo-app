@@ -68,6 +68,9 @@ function projectCreate(name) {
   return project;
 }
 
+/**
+ * Create a todo and save it in the DB
+ */
 function todoCreate(what, when, project) {
   const todo = new Todo(what, when);
   project.add(todo);
@@ -111,18 +114,26 @@ function saveProjects(data) {
 }
 
 /**
+ * Create a dummy project (if DB is still empty at initalisation)
+ * TODO belongs in app.js afaik
+ */
+function createDummyProject() {
+  const projectList = [];
+  const defaultProject = { what: 'Default', todos: [] };
+  const defaultTodo = { what: 'Delete this todo', when: Date.now() };
+  defaultProject.todos.push(defaultTodo);
+  projectList.push(defaultProject);
+  localStorage.setItem(DB_NAME, JSON.stringify(projectList));
+}
+
+/**
  * Redraw the screen on every DB change. Initialize with dummy data if DB empty.
  *
  * @param project number or overdue, today, future (for the main todo div)
  */
 export function redrawScreen(numOrDate) {
   if (localStorage.getItem(DB_NAME) == null) {
-    const projectList = [];
-    const defaultProject = { what: 'Default', todos: [] };
-    const defaultTodo = { what: 'Delete this todo', when: Date.now() };
-    defaultProject.todos.push(defaultTodo);
-    projectList.push(defaultProject);
-    localStorage.setItem(DB_NAME, JSON.stringify(projectList));
+    createDummyProject();
   }
   loadProjects(DB_NAME);
   const projects = DB.listProjects();
@@ -155,16 +166,19 @@ export function redrawScreen(numOrDate) {
  * in the database and redraw the screen.
  */
 export function handleAddTaskEvent(what, when, projectID) {
-  const todo = new Todo(what, when);
+  const parsedWhen = Date.parse(when);
   const project = DB.getProjectByNumber(projectID);
-  project.add(todo);
-  saveProjects(DB_NAME);
+  todoCreate(what, parsedWhen, project);
   redrawScreen(projectID);
 }
 
 export function handleAddProjectEvent(what) {
-  console.log(what);
+  const project = new Project(what);
+  saveProjects(DB_NAME);
+  console.log(project.what);
+  redrawScreen(0); // TODO set cookie!
 }
+
 export function handleDateViewEvent(date) {
   console.log(date);
 }

@@ -1,144 +1,142 @@
 :root {
-    --greener: #adef93;
-    --green: #bef2a9;
-    --greengreenyellow: #caf2a9;
-    --greenyellow: #daf2a9;
-    --yellowgreen: #eaf2a9;
-    --yellow: #eef2a9;
-    --accent: #e8678c;
-    --darktype: #131810;
-    --type: #2a2f27;
-    --lighttype: #898b87;
-    --background: #f8fdf6;
+  --greener: #adef93;
+  --green: #bef2a9;
+  --greengreenyellow: #caf2a9;
+  --greenyellow: #daf2a9;
+  --yellowgreen: #eaf2a9;
+  --yellow: #eef2a9;
+  --accent: #e8678c;
+  --darktype: #131810;
+  --type: #2a2f27;
+  --lighttype: #898b87;
+  --background: #f8fdf6;
 }
 
-
-
 h3:has(input:checked) {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 body {
-    margin: 0;
-    color: var(--type);
-    font-size: 1.2em;
-    background-color: var(--background);
-    font-family: 'Arial';
+  margin: 0;
+  color: var(--type);
+  font-size: 1.2em;
+  background-color: var(--background);
+  font-family: 'Arial';
 }
 
 #content {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
 #sidebar {
-    padding: 2rem 0 0 0;
-    flex: 30vw;
-    background-color: var(--greengreenyellow);
+  padding: 2rem 0 0 0;
+  flex: 30vw;
+  background-color: var(--greengreenyellow);
 }
 
 h1,
 h2,
 h3,
 p {
-    padding: 0.5rem 1rem 0.5rem 2rem;
-    margin: 0;
+  padding: 0.5rem 1rem 0.5rem 2rem;
+  margin: 0;
 }
 
 #sidebar h3:hover,
 #sidebar h2:hover,
-#add-task>p:hover {
-    background-color: var(--greener);
-    cursor: pointer;
+#add-task > p:hover {
+  background-color: var(--greener);
+  cursor: pointer;
 }
 
 #sidebar h1,
 #sidebar h2,
 #sidebar h3,
 #sidebar p {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 span.number {
-    color: var(--lighttype);
-    font-weight: 100;
-    justify-self: right;
+  color: var(--lighttype);
+  font-weight: 100;
+  justify-self: right;
 }
 
 #projects-h2 {
-    color: var(--lighttype);
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+  color: var(--lighttype);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 #sidebar h2,
 #sidebar p,
 .project-list-h3 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.project-list-h3>span {
-    display: flex;
-    align-items: center;
+.project-list-h3 > span {
+  display: flex;
+  align-items: center;
 }
 
 .project-delete {
-    color: var(--lighttype);
+  color: var(--lighttype);
 }
 
 .project-delete:hover,
 #add-task:hover,
 #add-project:hover {
-    color: var(--background);
+  color: var(--background);
 }
 
-ul>li {
-    list-style: none;
+ul > li {
+  list-style: none;
 }
 
 ul {
-    margin: 0;
-    padding-left: 0;
+  margin: 0;
+  padding-left: 0;
 }
 
 #main-tasks-div {
-    flex: 70vw;
-    padding-top: 2rem;
+  flex: 70vw;
+  padding-top: 2rem;
 }
 
 #main-tasks-div li {
-    padding-left: 2rem;
-    padding-bottom: 0.5rem;
-    display: grid;
-    grid-template-columns: 2rem 1fr;
-    align-items: center;
+  padding-left: 2rem;
+  padding-bottom: 0.5rem;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  align-items: center;
 }
 
 #main-tasks-div h2 {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 #add-todo-button {
-    margin-left: 2rem;
+  margin-left: 2rem;
 }
 
-#add-task>p {
-    color: var(--accent);
-    background-color: var(--green);
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+#add-task > p {
+  color: var(--accent);
+  background-color: var(--green);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .iconoir-folder {
-    color: var(--lighttype);
-    margin-right: 0.2em;
+  color: var(--lighttype);
+  margin-right: 0.2em;
 }
 
 .date-span {
-    font-size: 0.8rem;
-    color: var(--lighttype);
-    grid-column-start: 2;
+  font-size: 0.8rem;
+  color: var(--lighttype);
+  grid-column-start: 2;
 }
